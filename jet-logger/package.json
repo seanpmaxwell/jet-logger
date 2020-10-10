@@ -1,0 +1,44 @@
+{
+  "name": "jet-logger",
+  "version": "1.0.0",
+  "description": "A super quick, easy to setup logging tool for NodeJS/TypeScript.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/seanpmaxwell/jet-logger.git"
+  },
+  "keywords": [
+    "logger",
+    "logging",
+    "log",
+    "console",
+    "print",
+    "node",
+    "nodejs",
+    "overnight",
+    "overnightjs",
+    "overnightjs/logger",
+    "winston",
+    "jet",
+    "simple",
+    "easy",
+    "quick",
+    "jet-logger",
+    "best",
+    "type",
+    "typescript",
+    "script",
+    "env",
+    "environment",
+    "variables"
+  ],
+  "author": "sean maxwell",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/seanpmaxwell/jet-logger/issues"
+  },
+  "homepage": "https://github.com/seanpmaxwell/jet-logger#readme"
+}
