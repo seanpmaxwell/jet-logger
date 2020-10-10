@@ -83,7 +83,7 @@ export class Logger {
 
     private static initMode(): LoggerModes {
         if (!!process.env.JET_LOGGER_MODE) {
-            return process.env.JET_LOGGER_MODE.toLocaleUpperCase();
+            return process.env.JET_LOGGER_MODE.toLocaleUpperCase() as LoggerModes;
         } else {
             return LoggerModes.Console;
         }
@@ -297,6 +297,9 @@ export class Logger {
             } else {
                 throw Error(Logger.CUSTOM_LOGGER_ERR);
             }
+        } else {
+            throw Error('The correct logger mode was not specified: Must be "CUSTOM", "FILE", ' +
+                '"OFF", or "CONSOLE".')
         }
     }
 

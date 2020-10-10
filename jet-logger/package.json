@@ -2,7 +2,11 @@
   "name": "jet-logger",
   "version": "1.0.0",
   "description": "A super quick, easy to setup logging tool for NodeJS/TypeScript.",
-  "main": "index.js",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "directories": {
+    "lib": "lib"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -40,5 +44,11 @@
   "bugs": {
     "url": "https://github.com/seanpmaxwell/jet-logger/issues"
   },
-  "homepage": "https://github.com/seanpmaxwell/jet-logger#readme"
+  "homepage": "https://github.com/seanpmaxwell/jet-logger#readme",
+  "dependencies": {
+    "colors": "^1.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^14.11.8"
+  }
 }
