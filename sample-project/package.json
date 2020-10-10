@@ -1,0 +1,19 @@
+{
+  "name": "sample-project",
+  "version": "1.0.0",
+  "description": "sample project for jet-logger",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/seanpmaxwell/jet-logger/tree/main/sample-project"
+  },
+  "keywords": [
+    "jet-logger",
+    "sample-project"
+  ],
+  "author": "sean maxwell",
+  "license": "MIT"
+}
