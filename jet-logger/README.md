@@ -46,17 +46,22 @@ error object and observe the stack trace.<br>
 Let's look at some sample code in an express route:
 
 ````typescript
-import { OK } from 'http-status-codes';
-import { Router, Request, Response } from 'express';
-import { Logger } from 'jet-logger';
-
-const router = Router();
-
+/* Some script that is run before the route script */
 
 // Apply logger settings (Note you could also use a tool "dotenv" to set env variables)
+// These must be set before logger is imported
 const logFilePath = path.join(__dirname, '../sampleProject.log');
 process.env.JET_LOGGER_MODE = LoggerModes.File; // Can also be Console, Custom, or Off
 process.env.JET_LOGGER_FILEPATH = logFilePath;
+
+
+/* In you route script */
+
+import { OK } from 'http-status-codes';
+import { Router, Request, Response } from 'express';
+import Logger from 'jet-logger';
+
+const router = Router();
 
 
 router.get('api/users', async (req: Request, res: Reponse) => {

@@ -4,7 +4,7 @@
  * created by Sean Maxwell, 10/10/2020
  */
 
-import { Formats, Logger, LoggerModes } from 'jet-logger';
+import Logger, { Formats, LoggerModes } from 'jet-logger';
 import CustomLogger from './CustomLogger';
 
 
@@ -22,14 +22,14 @@ logger.err(new Error('Demo print full error object'), true)
 // eslint-disable-next-line no-console
 console.log('\n')
 
-// Test out logger instance, console
+// Test out logger instance, file
 logger.mode = LoggerModes.File;
 logger.info('hello jet-logger');
 logger.imp('hello jet-logger');
 logger.warn('hello jet-logger');
 logger.err('hello jet-logger \n');
 
-// Test out logger instance, console
+// Test out logger instance, off
 logger.mode = LoggerModes.Off;
 logger.info('This line shouldn\'t print \n');
 
@@ -46,20 +46,20 @@ logger.err('hello jet-logger \n');
 
 /* Static values */
 
-// Test out logger instance, console
+// Test out static logger, console
 Logger.Info('hello jet-logger');
 Logger.Imp('hello jet-logger');
 Logger.Warn('hello jet-logger');
 Logger.Err('hello jet-logger \n');
 
-// Test out logger instance, console
+// Test out static logger, file
 Logger.mode = LoggerModes.File;
 Logger.Info('hello jet-logger');
 Logger.Imp('hello jet-logger');
 Logger.Warn('hello jet-logger');
 Logger.Err('hello jet-logger \n');
 
-// Test out logger instance, console
+// Test out static logger, off
 Logger.mode = LoggerModes.Off;
 Logger.Info('This line shouldn\'t print \n');
 
@@ -84,7 +84,7 @@ logger2.err('hello jet-logger');
 logger2.err(new Error('Demo print full error object'), true)
 
 
-/* Test using env variables */
+/* Test env variables */
 process.env.JET_LOGGER_MODE = LoggerModes.File;
 process.env.JET_LOGGER_FILEPATH = 'jet-logger-alt2.log';
 process.env.JET_LOGGER_TIMESTAMP = 'true';

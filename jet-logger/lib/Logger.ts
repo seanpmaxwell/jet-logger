@@ -10,32 +10,15 @@
 import colors from 'colors';
 import fs from 'fs';
 import util from 'util';
+import { LoggerModes, Formats, ICustomLogger } from './constants';
 
 
-
-export const enum LoggerModes {
-    Console = 'CONSOLE',
-    File = 'FILE',
-    Custom = 'CUSTOM',
-    Off = 'OFF',
-}
-
-
-export const enum Formats {
-    Line = 'LINE',
-    Json = 'JSON',
-}
 
 
 interface IJsonFormat {
     timestamp?: string;
     level?: string;
     message?: string;
-}
-
-
-export interface ICustomLogger {
-    sendLog(timestamp: Date, prefix: string, content: any): void;
 }
 
 
@@ -64,7 +47,7 @@ type TLevelProp = typeof Levels[keyof typeof Levels];
 
 
 
-export class Logger {
+class Logger {
 
     public static readonly DEFAULT_LOG_FILE_NAME = 'jet-logger.log';
     public static readonly CUSTOM_LOGGER_ERR = 'Custom logger mode set to true, but no ' +
@@ -324,7 +307,7 @@ export class Logger {
         if (printFull) {
             content = util.inspect(content);
         }
-        // Setup line or JSON string
+        // Setup JSON string
         if (format === Formats.Json) {
             jsonContent.message = content;
         }
@@ -404,3 +387,5 @@ export class Logger {
         }
     }
 }
+
+export default Logger;
