@@ -2,12 +2,6 @@
 
 > A super quick, easy to setup logging tool for NodeJS/TypeScript.
 
-<img
-    border='0'
-    alt='jet-loggerjs'
-    src='https://github.com/seanpmaxwell/jet-logger/raw/master/jet-loggerjs.png'
-/>
-
 
 ## What is it
 Jet-Logger is an easy to configure logging that allows you change settings via the environment
@@ -22,7 +16,8 @@ $ npm install --save jet-logger
 
 ### Guide
 The logger package's main export is the `Logger` class. Logger can used statically or as an instance 
-with settings configured through a constructor.
+object with settings configured through a constructor. Variables passed through the constructor will
+take priority over environment variables.
 
 - The five environment variables are:
     - `JET_LOGGER_MODE`: can be `'CONSOLE'`(default), `'FILE'`, `'CUSTOM'`, and `'OFF'`.
