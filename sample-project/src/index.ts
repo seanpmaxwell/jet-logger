@@ -73,12 +73,23 @@ Logger.Err('hello jet-logger \n');
 
 
 
-/* Alternate File Name */
 
-// Empty constructor
+/* Alternate File Name */
 const logger2 = new Logger(LoggerModes.File, 'jet-logger-alt.log', false);
 logger2.info('hello jet-logger');
 logger2.imp('hello jet-logger');
 logger2.warn('hello jet-logger');
 logger2.err('hello jet-logger');
 logger2.err(new Error('Demo print full error object'), true)
+
+
+/* Test using env variables */
+process.env.JET_LOGGER_MODE = LoggerModes.File;
+process.env.JET_LOGGER_FILEPATH = 'jet-logger-alt2.log';
+process.env.JET_LOGGER_TIMESTAMP = 'true';
+const logger3 = new Logger();
+logger3.info('hello jet-logger');
+logger3.imp('hello jet-logger');
+logger3.warn('hello jet-logger');
+logger3.err('hello jet-logger');
+logger3.err(new Error('Demo print full error object'), true)

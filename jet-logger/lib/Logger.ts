@@ -74,9 +74,9 @@ export class Logger {
         timestamp?: boolean,
         customLogger?: ICustomLogger,
     ) {
-        this._mode = mode || Logger.mode;
-        this._filePath = filePath || Logger.filePath;
-        this._timestamp = (timestamp !== undefined ? timestamp : Logger.timestamp);
+        this._mode = mode || Logger.initMode();
+        this._filePath = filePath || Logger.initFilePath();
+        this._timestamp = (timestamp !== undefined ? timestamp : Logger.initTimestamp());
         this._customLogger = customLogger || Logger.customLogger;
     }
 
