@@ -2,9 +2,10 @@
   "name": "sample-project",
   "version": "1.0.0",
   "description": "sample project for jet-logger",
-  "main": "index.js",
+  "main": "./src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node -r tsconfig-paths/register ./src"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,8 @@
     "sample-project"
   ],
   "author": "sean maxwell",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "tsconfig-paths": "^3.9.0"
+  }
 }
