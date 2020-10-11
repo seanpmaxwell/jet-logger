@@ -18,6 +18,10 @@
   "author": "sean maxwell",
   "license": "MIT",
   "devDependencies": {
+    "@types/node": "^14.11.8",
     "tsconfig-paths": "^3.9.0"
+  },
+  "dependencies": {
+    "colors": "^1.4.0"
   }
 }

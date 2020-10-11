@@ -23,7 +23,7 @@ export const enum LoggerModes {
 
 
 export interface ICustomLogger {
-    sendLog(content: any, prefix: string): void;
+    sendLog(timestamp: Date, prefix: string, content: any): void;
 }
 
 
@@ -53,6 +53,10 @@ type TLevelProp = typeof Levels[keyof typeof Levels];
 
 export class Logger {
 
+    public static readonly DEFAULT_LOG_FILE_NAME = 'jet-logger.log';
+    public static readonly CUSTOM_LOGGER_ERR = 'Custom logger mode set to true, but no ' +
+        'custom logger was provided.';
+
     private static _mode: LoggerModes = Logger.initMode();
     private static _filePath: string = Logger.initFilePath();
     private static _timestamp: boolean = Logger.initTimestamp();
@@ -62,10 +66,6 @@ export class Logger {
     private _filePath: string;
     private _timestamp: boolean;
     private _customLogger: ICustomLogger | null;
-
-    public static readonly DEFAULT_LOG_FILE_NAME = 'jet-logger.log';
-    public static readonly CUSTOM_LOGGER_ERR = 'Custom logger mode set to true, but no ' +
-        'custom logger was provided.';
 
 
     constructor(
@@ -278,22 +278,24 @@ export class Logger {
             content = util.inspect(content);
         }
         // Prepend timestamp
-        if (!timestamp) {
-            const time = '[' + new Date().toISOString() + ']: ';
+        if (timestamp) {
+            const time = '[' + new Date().toISOString() + '] ';
             content = time + content;
         }
         // Print Console
         if (mode === LoggerModes.Console) {
+            content = level.prefix + ': ' + content;
             content = (colors as any)[level.color](content);
             // tslint:disable-next-line
             console.log(content);
         // Print File
         } else if (mode === LoggerModes.File) {
-            Logger.WriteToFile(level.prefix + content + '\n', filePath);
+            content = level.prefix + ': ' + content;
+            Logger.WriteToFile(content + '\n', filePath);
         // Print with Custom logger
         } else if (mode === LoggerModes.Custom) {
             if (!!customLogger) {
-                customLogger.sendLog(content, level.prefix);
+                customLogger.sendLog(new Date(), level.prefix, content);
             } else {
                 throw Error(Logger.CUSTOM_LOGGER_ERR);
             }
