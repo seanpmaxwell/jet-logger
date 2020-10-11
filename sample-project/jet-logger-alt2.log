@@ -133,3 +133,168 @@
     at Function.Module.runMain (internal/modules/cjs/loader.js:1025:10)
     at main (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\bin.ts:212:14)
     at Object.<anonymous> (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\bin.ts:470:3)
+[2020-10-11T07:23:05.328Z] INFO: hello jet-logger
+[2020-10-11T07:23:05.328Z] IMPORTANT: hello jet-logger
+[2020-10-11T07:23:05.329Z] WARNING: hello jet-logger
+[2020-10-11T07:23:05.329Z] ERROR: hello jet-logger
+[2020-10-11T07:23:05.330Z] ERROR: Error: Demo print full error object
+    at Object.<anonymous> (C:\Projects\jet-logger\sample-project\src\index.ts:96:13)
+    at Module._compile (internal/modules/cjs/loader.js:956:30)
+    at Module.m._compile (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\index.ts:536:23)
+    at Module._extensions..js (internal/modules/cjs/loader.js:973:10)
+    at Object.require.extensions.<computed> [as .ts] (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\index.ts:539:12)
+    at Module.load (internal/modules/cjs/loader.js:812:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:724:14)
+    at Function.Module.runMain (internal/modules/cjs/loader.js:1025:10)
+    at main (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\bin.ts:212:14)
+    at Object.<anonymous> (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\bin.ts:470:3)
+[2020-10-11T07:23:05.330Z] INFO: hello jet-logger
+[2020-10-11T07:23:05.331Z] IMPORTANT: hello jet-logger
+[2020-10-11T07:23:05.331Z] WARNING: hello jet-logger
+[2020-10-11T07:23:05.331Z] ERROR: hello jet-logger
+[2020-10-11T07:23:05.332Z] ERROR: Error: Demo print full error object
+    at Object.<anonymous> (C:\Projects\jet-logger\sample-project\src\index.ts:108:13)
+    at Module._compile (internal/modules/cjs/loader.js:956:30)
+    at Module.m._compile (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\index.ts:536:23)
+    at Module._extensions..js (internal/modules/cjs/loader.js:973:10)
+    at Object.require.extensions.<computed> [as .ts] (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\index.ts:539:12)
+    at Module.load (internal/modules/cjs/loader.js:812:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:724:14)
+    at Function.Module.runMain (internal/modules/cjs/loader.js:1025:10)
+    at main (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\bin.ts:212:14)
+    at Object.<anonymous> (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\bin.ts:470:3)
+[2020-10-11T07:23:31.221Z] INFO: hello jet-logger
+[2020-10-11T07:23:31.221Z] IMPORTANT: hello jet-logger
+[2020-10-11T07:23:31.222Z] WARNING: hello jet-logger
+[2020-10-11T07:23:31.222Z] ERROR: hello jet-logger
+[2020-10-11T07:23:31.223Z] ERROR: Error: Demo print full error object
+    at Object.<anonymous> (C:\Projects\jet-logger\sample-project\src\index.ts:96:13)
+    at Module._compile (internal/modules/cjs/loader.js:956:30)
+    at Module.m._compile (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\index.ts:536:23)
+    at Module._extensions..js (internal/modules/cjs/loader.js:973:10)
+    at Object.require.extensions.<computed> [as .ts] (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\index.ts:539:12)
+    at Module.load (internal/modules/cjs/loader.js:812:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:724:14)
+    at Function.Module.runMain (internal/modules/cjs/loader.js:1025:10)
+    at main (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\bin.ts:212:14)
+    at Object.<anonymous> (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\bin.ts:470:3)
+[2020-10-11T07:23:31.223Z] INFO: hello jet-logger
+[2020-10-11T07:23:31.224Z] IMPORTANT: hello jet-logger
+[2020-10-11T07:23:31.224Z] WARNING: hello jet-logger
+[2020-10-11T07:23:31.225Z] ERROR: hello jet-logger
+[2020-10-11T07:23:31.226Z] ERROR: Error: Demo print full error object
+    at Object.<anonymous> (C:\Projects\jet-logger\sample-project\src\index.ts:108:13)
+    at Module._compile (internal/modules/cjs/loader.js:956:30)
+    at Module.m._compile (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\index.ts:536:23)
+    at Module._extensions..js (internal/modules/cjs/loader.js:973:10)
+    at Object.require.extensions.<computed> [as .ts] (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\index.ts:539:12)
+    at Module.load (internal/modules/cjs/loader.js:812:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:724:14)
+    at Function.Module.runMain (internal/modules/cjs/loader.js:1025:10)
+    at main (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\bin.ts:212:14)
+    at Object.<anonymous> (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\bin.ts:470:3)
+[2020-10-11T07:25:46.782Z] INFO: hello jet-logger
+[2020-10-11T07:25:46.783Z] IMPORTANT: hello jet-logger
+[2020-10-11T07:25:46.783Z] WARNING: hello jet-logger
+[2020-10-11T07:25:46.783Z] ERROR: hello jet-logger
+[2020-10-11T07:25:46.784Z] ERROR: Error: Demo print full error object
+    at Object.<anonymous> (C:\Projects\jet-logger\sample-project\src\index.ts:96:13)
+    at Module._compile (internal/modules/cjs/loader.js:956:30)
+    at Module.m._compile (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\index.ts:536:23)
+    at Module._extensions..js (internal/modules/cjs/loader.js:973:10)
+    at Object.require.extensions.<computed> [as .ts] (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\index.ts:539:12)
+    at Module.load (internal/modules/cjs/loader.js:812:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:724:14)
+    at Function.Module.runMain (internal/modules/cjs/loader.js:1025:10)
+    at main (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\bin.ts:212:14)
+    at Object.<anonymous> (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\bin.ts:470:3)
+[2020-10-11T07:25:46.784Z] INFO: hello jet-logger
+[2020-10-11T07:25:46.785Z] IMPORTANT: hello jet-logger
+[2020-10-11T07:25:46.785Z] WARNING: hello jet-logger
+[2020-10-11T07:25:46.785Z] ERROR: hello jet-logger
+[2020-10-11T07:25:46.786Z] ERROR: Error: Demo print full error object
+    at Object.<anonymous> (C:\Projects\jet-logger\sample-project\src\index.ts:108:13)
+    at Module._compile (internal/modules/cjs/loader.js:956:30)
+    at Module.m._compile (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\index.ts:536:23)
+    at Module._extensions..js (internal/modules/cjs/loader.js:973:10)
+    at Object.require.extensions.<computed> [as .ts] (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\index.ts:539:12)
+    at Module.load (internal/modules/cjs/loader.js:812:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:724:14)
+    at Function.Module.runMain (internal/modules/cjs/loader.js:1025:10)
+    at main (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\bin.ts:212:14)
+    at Object.<anonymous> (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\bin.ts:470:3)
+[2020-10-11T07:26:16.023Z] INFO: hello jet-logger
+[2020-10-11T07:26:16.023Z] IMPORTANT: hello jet-logger
+[2020-10-11T07:26:16.024Z] WARNING: hello jet-logger
+[2020-10-11T07:26:16.024Z] ERROR: hello jet-logger
+[2020-10-11T07:26:16.025Z] ERROR: Error: Demo print full error object
+    at Object.<anonymous> (C:\Projects\jet-logger\sample-project\src\index.ts:96:13)
+    at Module._compile (internal/modules/cjs/loader.js:956:30)
+    at Module.m._compile (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\index.ts:536:23)
+    at Module._extensions..js (internal/modules/cjs/loader.js:973:10)
+    at Object.require.extensions.<computed> [as .ts] (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\index.ts:539:12)
+    at Module.load (internal/modules/cjs/loader.js:812:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:724:14)
+    at Function.Module.runMain (internal/modules/cjs/loader.js:1025:10)
+    at main (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\bin.ts:212:14)
+    at Object.<anonymous> (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\bin.ts:470:3)
+[2020-10-11T07:26:16.026Z] INFO: hello jet-logger
+[2020-10-11T07:26:16.026Z] IMPORTANT: hello jet-logger
+[2020-10-11T07:26:16.026Z] WARNING: hello jet-logger
+[2020-10-11T07:26:16.027Z] ERROR: hello jet-logger
+[2020-10-11T07:26:16.027Z] ERROR: Error: Demo print full error object
+    at Object.<anonymous> (C:\Projects\jet-logger\sample-project\src\index.ts:108:13)
+    at Module._compile (internal/modules/cjs/loader.js:956:30)
+    at Module.m._compile (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\index.ts:536:23)
+    at Module._extensions..js (internal/modules/cjs/loader.js:973:10)
+    at Object.require.extensions.<computed> [as .ts] (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\index.ts:539:12)
+    at Module.load (internal/modules/cjs/loader.js:812:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:724:14)
+    at Function.Module.runMain (internal/modules/cjs/loader.js:1025:10)
+    at main (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\bin.ts:212:14)
+    at Object.<anonymous> (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\bin.ts:470:3)
+[2020-10-11T07:27:19.808Z] INFO: hello jet-logger
+[2020-10-11T07:27:19.809Z] IMPORTANT: hello jet-logger
+[2020-10-11T07:27:19.809Z] WARNING: hello jet-logger
+[2020-10-11T07:27:19.810Z] ERROR: hello jet-logger
+[2020-10-11T07:27:19.811Z] ERROR: Error: Demo print full error object
+    at Object.<anonymous> (C:\Projects\jet-logger\sample-project\src\index.ts:96:13)
+    at Module._compile (internal/modules/cjs/loader.js:956:30)
+    at Module.m._compile (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\index.ts:536:23)
+    at Module._extensions..js (internal/modules/cjs/loader.js:973:10)
+    at Object.require.extensions.<computed> [as .ts] (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\index.ts:539:12)
+    at Module.load (internal/modules/cjs/loader.js:812:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:724:14)
+    at Function.Module.runMain (internal/modules/cjs/loader.js:1025:10)
+    at main (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\bin.ts:212:14)
+    at Object.<anonymous> (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\bin.ts:470:3)
+[2020-10-11T07:27:19.812Z] INFO: hello jet-logger
+[2020-10-11T07:27:19.812Z] IMPORTANT: hello jet-logger
+[2020-10-11T07:27:19.813Z] WARNING: hello jet-logger
+[2020-10-11T07:27:19.814Z] ERROR: hello jet-logger
+[2020-10-11T07:27:19.815Z] ERROR: Error: Demo print full error object
+    at Object.<anonymous> (C:\Projects\jet-logger\sample-project\src\index.ts:108:13)
+    at Module._compile (internal/modules/cjs/loader.js:956:30)
+    at Module.m._compile (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\index.ts:536:23)
+    at Module._extensions..js (internal/modules/cjs/loader.js:973:10)
+    at Object.require.extensions.<computed> [as .ts] (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\index.ts:539:12)
+    at Module.load (internal/modules/cjs/loader.js:812:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:724:14)
+    at Function.Module.runMain (internal/modules/cjs/loader.js:1025:10)
+    at main (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\bin.ts:212:14)
+    at Object.<anonymous> (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\bin.ts:470:3)
+[2020-10-11T07:30:27.582Z] INFO: hello jet-logger
+[2020-10-11T07:30:27.583Z] IMPORTANT: hello jet-logger
+[2020-10-11T07:30:27.583Z] WARNING: hello jet-logger
+[2020-10-11T07:30:27.584Z] ERROR: hello jet-logger
+[2020-10-11T07:30:27.585Z] ERROR: Error: Demo print full error object
+    at Object.<anonymous> (C:\Projects\jet-logger\sample-project\src\index.ts:96:13)
+    at Module._compile (internal/modules/cjs/loader.js:956:30)
+    at Module.m._compile (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\index.ts:536:23)
+    at Module._extensions..js (internal/modules/cjs/loader.js:973:10)
+    at Object.require.extensions.<computed> [as .ts] (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\index.ts:539:12)
+    at Module.load (internal/modules/cjs/loader.js:812:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:724:14)
+    at Function.Module.runMain (internal/modules/cjs/loader.js:1025:10)
+    at main (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\bin.ts:212:14)
+    at Object.<anonymous> (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\bin.ts:470:3)

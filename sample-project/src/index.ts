@@ -4,7 +4,7 @@
  * created by Sean Maxwell, 10/10/2020
  */
 
-import { Logger, LoggerModes } from 'jet-logger';
+import { Formats, Logger, LoggerModes } from 'jet-logger';
 import CustomLogger from './CustomLogger';
 
 
@@ -95,3 +95,15 @@ logger3.warn('hello jet-logger');
 logger3.err('hello jet-logger');
 logger3.err(new Error('Demo print full error object'), true)
 
+
+/* Test json format */
+process.env.JET_LOGGER_MODE = LoggerModes.File;
+process.env.JET_LOGGER_FILEPATH = 'jet-logger-json.log';
+process.env.JET_LOGGER_TIMESTAMP = 'true';
+process.env.JET_LOGGER_FORMAT = Formats.Json;
+const logger4 = new Logger();
+logger4.info('hello jet-logger');
+logger4.imp('hello jet-logger');
+logger4.warn('hello jet-logger');
+logger4.err('hello jet-logger');
+logger4.err(new Error('Demo print full error object'), true)

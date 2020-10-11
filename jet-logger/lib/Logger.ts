@@ -13,12 +13,24 @@ import util from 'util';
 
 
 
-
 export const enum LoggerModes {
     Console = 'CONSOLE',
     File = 'FILE',
     Custom = 'CUSTOM',
     Off = 'OFF',
+}
+
+
+export const enum Formats {
+    Line = 'LINE',
+    Json = 'JSON',
+}
+
+
+interface IJsonFormat {
+    timestamp?: string;
+    level?: string;
+    message?: string;
 }
 
 
@@ -61,11 +73,13 @@ export class Logger {
     private static _mode: LoggerModes = Logger.initMode();
     private static _filePath: string = Logger.initFilePath();
     private static _timestamp: boolean = Logger.initTimestamp();
+    private static _format: Formats = Logger.initFormat();
     private static _customLogger: ICustomLogger | null = null;
 
     private _mode: LoggerModes;
     private _filePath: string;
     private _timestamp: boolean;
+    private _format: Formats;
     private _customLogger: ICustomLogger | null;
 
 
@@ -73,11 +87,13 @@ export class Logger {
         mode?: LoggerModes,
         filePath?: string,
         timestamp?: boolean,
+        format?: Formats,
         customLogger?: ICustomLogger,
     ) {
         this._mode = mode || Logger.initMode();
         this._filePath = filePath || Logger.initFilePath();
         this._timestamp = (timestamp !== undefined ? timestamp : Logger.initTimestamp());
+        this._format = format || Logger.initFormat();
         this._customLogger = customLogger || Logger.customLogger;
     }
 
@@ -105,6 +121,15 @@ export class Logger {
             return (process.env.JET_LOGGER_TIMESTAMP.toLocaleUpperCase() === 'TRUE');
         } else {
             return true;
+        }
+    }
+
+
+    private static initFormat(): Formats {
+        if (!!process.env.JET_LOGGER_FORMAT) {
+            return process.env.JET_LOGGER_FORMAT.toLocaleUpperCase() as Formats;
+        } else {
+            return Formats.Line;
         }
     }
 
@@ -167,6 +192,24 @@ export class Logger {
         this._timestamp = timestamp;
     }
 
+    // Format
+
+    public static get format(): Formats {
+        return Logger._format;
+    }
+
+    public static set format(format: Formats) {
+        Logger._format = format;
+    }
+
+    public get format(): Formats {
+        return this._format;
+    }
+
+    public set format(format: Formats) {
+        this._format = format;
+    }
+
     // Custom Logger
 
     public static set customLogger(customLogger: ICustomLogger | null) {
@@ -211,7 +254,7 @@ export class Logger {
 
 
     private static PrintLogHelper(content: any, printFull: boolean, level: TLevelProp): void {
-        Logger.PrintLog(content, printFull, level, Logger.mode, Logger.timestamp,
+        Logger.PrintLog(content, printFull, level, Logger.mode, Logger.timestamp, Logger.format,
             Logger.filePath, Logger.customLogger);
     }
 
@@ -241,8 +284,8 @@ export class Logger {
 
 
     private printLogHelper(content: any, printFull: boolean, level: TLevelProp): void {
-        Logger.PrintLog(content, printFull, level, this.mode, this.timestamp, this.filePath,
-            this.customLogger);
+        Logger.PrintLog(content, printFull, level, this.mode, this.timestamp, this.format,
+            this.filePath, this.customLogger);
     }
 
 
@@ -267,6 +310,7 @@ export class Logger {
         level: TLevelProp,
         mode: LoggerModes,
         timestamp: boolean,
+        format: Formats,
         filePath: string,
         customLogger: ICustomLogger | null,
     ): void {
@@ -274,23 +318,41 @@ export class Logger {
         if (mode === LoggerModes.Off) {
             return;
         }
+        // Init Json Object
+        const jsonContent: IJsonFormat = {}
         // Print full
         if (printFull) {
             content = util.inspect(content);
         }
+        // Setup line or JSON string
+        if (format === Formats.Json) {
+            jsonContent.message = content;
+        }
         // Append prefix
         if (mode !== LoggerModes.Custom) {
-            content = level.prefix + ': ' + content;
+            if (format === Formats.Line) {
+                content = level.prefix + ': ' + content;
+            } else if (format === Formats.Json) {
+                jsonContent.level = level.prefix;
+            }
         }
         // Prepend timestamp
         if (timestamp) {
-            const time = '[' + new Date().toISOString() + '] ';
-            content = time + content;
+            if (format === Formats.Line) {
+                const time = '[' + new Date().toISOString() + '] ';
+                content = time + content;
+            } else if (format === Formats.Json) {
+                jsonContent.timestamp = new Date().toISOString();
+            }
+        }
+        // Set content to json object if that's the format
+        if (format === Formats.Json) {
+            content = JSON.stringify(jsonContent);
         }
         // Print Console
         if (mode === LoggerModes.Console) {
-            content = (colors as any)[level.color](content);
-            console.log(content);
+            const colorFn = (colors as any)[level.color];
+            console.log(colorFn(content));
         // Print File
         } else if (mode === LoggerModes.File) {
             Logger.WriteToFile(content + '\n', filePath);
