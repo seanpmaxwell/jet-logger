@@ -10,8 +10,8 @@ import { ICustomLogger } from 'jet-logger';
 
 class CustomLogger implements ICustomLogger {
 
-    public sendLog(timestamp: Date, prefix: string, content: any): void {
-        const logStr = timestamp.toISOString() + ' ' + prefix + ': ' + content;
+    public sendLog(timestamp: Date, level: string, content: any): void {
+        const logStr = timestamp.toISOString() + ' ' + level + ': ' + content;
         // eslint-disable-next-line no-console
         console.log(colors.america(logStr));
     }
