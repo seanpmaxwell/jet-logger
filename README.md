@@ -19,9 +19,8 @@ The logger package's main export is the `Logger` class. Logger can used statical
 object with settings configured through a constructor. Variables passed through the constructor will
 take priority over environment variables.
 
-- The five environment variables are:
+- The four environment variables are:
     - `JET_LOGGER_MODE`: can be `'CONSOLE'`(default), `'FILE'`, `'CUSTOM'`, and `'OFF'`.
-    - `JET_LOGGER_FORMAT`: can be `'LINE'`(default), `'JSON'`.
     - `JET_LOGGER_FILEPATH`: the file-path for file mode. Default is _home_dir/jet-logger.log_.
     - `JET_LOGGER_TIMESTAMP`: adds a timestamp next to each log. Can be `'TRUE'` (default) or `'FALSE'`.
     - `JET_LOGGER_FORMAT`: formats log as a line or JSON object. Can be `'LINE'` (default) or `'JSON'`.
