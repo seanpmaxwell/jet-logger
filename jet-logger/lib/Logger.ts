@@ -277,6 +277,10 @@ export class Logger {
         if (printFull) {
             content = util.inspect(content);
         }
+        // Append prefix
+        if (mode !== LoggerModes.Custom) {
+            content = level.prefix + ': ' + content;
+        }
         // Prepend timestamp
         if (timestamp) {
             const time = '[' + new Date().toISOString() + '] ';
@@ -284,13 +288,11 @@ export class Logger {
         }
         // Print Console
         if (mode === LoggerModes.Console) {
-            content = level.prefix + ': ' + content;
             content = (colors as any)[level.color](content);
             // tslint:disable-next-line
             console.log(content);
         // Print File
         } else if (mode === LoggerModes.File) {
-            content = level.prefix + ': ' + content;
             Logger.WriteToFile(content + '\n', filePath);
         // Print with Custom logger
         } else if (mode === LoggerModes.Custom) {

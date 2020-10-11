@@ -90,31 +90,23 @@ router.get('api/users/alt', async (req: Request, res: Reponse) => {
 ````
 
 
-- The previous code-snippet will  show the following content when printed to a file:
+- The previous code-snippet will  show the following content when printed:
 ````
-IMPORTANT: [2019-04-07T19:17:28.799Z]: jet-logger with standard express router started on port: 3000
-INFO: [2019-04-07T19:18:08.939Z]: hello-logger
-IMPORTANT: [2019-04-07T19:18:08.939Z]: hello-logger
-WARNING: [2019-04-07T19:18:08.939Z]: hello-logger
-ERROR: [2019-04-07T19:18:08.940Z]: hello-logger
-ERROR: [2019-04-07T19:18:08.940Z]: Error: printing out an error
-ERROR: [2019-04-07T19:18:08.956Z]: Error: printing out an error full
-    at class_1.LoggerPracticeController.printLogsFile (/home/seanmaxwell/WebstormProjects/jet-logger/sample-project/src/controllers/LoggerPracticeController.ts:49:20)
-    at class_1.descriptor.value [as printLogsFile] (/home/seanmaxwell/WebstormProjects/jet-logger/src/core/lib/PropertyDecorators.ts:36:35)
-    at callBack (/home/seanmaxwell/WebstormProjects/jet-logger/src/core/lib/Server.ts:78:50)
-    at Layer.handle [as handle_request] (/home/seanmaxwell/WebstormProjects/jet-logger/src/core/node_modules/express/lib/router/layer.js:95:5)
-    at next (/home/seanmaxwell/WebstormProjects/jet-logger/src/core/node_modules/express/lib/router/route.js:137:13)
-    at Route.dispatch (/home/seanmaxwell/WebstormProjects/jet-logger/src/core/node_modules/express/lib/router/route.js:112:3)
-    at Layer.handle [as handle_request] (/home/seanmaxwell/WebstormProjects/jet-logger/src/core/node_modules/express/lib/router/layer.js:95:5)
-    at /home/seanmaxwell/WebstormProjects/jet-logger/src/core/node_modules/express/lib/router/index.js:281:22
-    at param (/home/seanmaxwell/WebstormProjects/jet-logger/src/core/node_modules/express/lib/router/index.js:354:14)
-    at param (/home/seanmaxwell/WebstormProjects/jet-logger/src/core/node_modules/express/lib/router/index.js:365:14)
-    at Function.process_params (/home/seanmaxwell/WebstormProjects/jet-logger/src/core/node_modules/express/lib/router/index.js:410:3)
-    at next (/home/seanmaxwell/WebstormProjects/jet-logger/src/core/node_modules/express/lib/router/index.js:275:10)
-    at Function.handle (/home/seanmaxwell/WebstormProjects/jet-logger/src/core/node_modules/express/lib/router/index.js:174:3)
-    at router (/home/seanmaxwell/WebstormProjects/jet-logger/src/core/node_modules/express/lib/router/index.js:47:12)
-    at Layer.handle [as handle_request] (/home/seanmaxwell/WebstormProjects/jet-logger/src/core/node_modules/express/lib/router/layer.js:95:5)
-    at trim_prefix (/home/seanmaxwell/WebstormProjects/jet-logger/src/core/node_modules/express/lib/router/index.js:317:13)
+[2020-10-11T04:50:59.339Z] INFO: hello jet-logger
+[2020-10-11T04:50:59.341Z] IMPORTANT: hello jet-logger
+[2020-10-11T04:50:59.341Z] WARNING: hello jet-logger
+[2020-10-11T04:50:59.342Z] ERROR: hello jet-logger
+[2020-10-11T04:50:59.372Z] ERROR: Error: Demo print full error object
+    at Object.<anonymous> (C:\Projects\jet-logger\sample-project\src\index.ts:21:12)
+    at Module._compile (internal/modules/cjs/loader.js:956:30)
+    at Module.m._compile (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\index.ts:536:23)
+    at Module._extensions..js (internal/modules/cjs/loader.js:973:10)
+    at Object.require.extensions.<computed> [as .ts] (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\index.ts:539:12)
+    at Module.load (internal/modules/cjs/loader.js:812:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:724:14)
+    at Function.Module.runMain (internal/modules/cjs/loader.js:1025:10)
+    at main (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\bin.ts:212:14)
+    at Object.<anonymous> (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\bin.ts:470:3)
 ````
 
 
