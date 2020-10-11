@@ -19,7 +19,8 @@ logger.imp('hello jet-logger');
 logger.warn('hello jet-logger');
 logger.err('hello jet-logger');
 logger.err(new Error('Demo print full error object'), true)
-console.log('\n');
+// eslint-disable-next-line no-console
+console.log('\n')
 
 // Test out logger instance, console
 logger.mode = LoggerModes.File;
@@ -93,3 +94,4 @@ logger3.imp('hello jet-logger');
 logger3.warn('hello jet-logger');
 logger3.err('hello jet-logger');
 logger3.err(new Error('Demo print full error object'), true)
+

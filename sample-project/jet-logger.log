@@ -98,3 +98,64 @@ ERROR: [2020-10-11T04:44:14.050Z] hello jet-logger
 [2020-10-11T05:06:27.242Z] WARNING: hello jet-logger
 [2020-10-11T05:06:27.242Z] ERROR: hello jet-logger 
 
+[2020-10-11T06:33:51.958Z] INFO: hello jet-logger
+[2020-10-11T06:33:51.959Z] IMPORTANT: hello jet-logger
+[2020-10-11T06:33:51.959Z] WARNING: hello jet-logger
+[2020-10-11T06:33:51.960Z] ERROR: hello jet-logger 
+
+[2020-10-11T06:33:51.965Z] INFO: hello jet-logger
+[2020-10-11T06:33:51.965Z] IMPORTANT: hello jet-logger
+[2020-10-11T06:33:51.966Z] WARNING: hello jet-logger
+[2020-10-11T06:33:51.966Z] ERROR: hello jet-logger 
+
+[2020-10-11T06:34:11.387Z] INFO: hello jet-logger
+[2020-10-11T06:34:11.388Z] IMPORTANT: hello jet-logger
+[2020-10-11T06:34:11.389Z] WARNING: hello jet-logger
+[2020-10-11T06:34:11.389Z] ERROR: hello jet-logger 
+
+[2020-10-11T06:34:11.394Z] INFO: hello jet-logger
+[2020-10-11T06:34:11.394Z] IMPORTANT: hello jet-logger
+[2020-10-11T06:34:11.395Z] WARNING: hello jet-logger
+[2020-10-11T06:34:11.395Z] ERROR: hello jet-logger 
+
+[2020-10-11T06:34:52.752Z] INFO: 
+ hello jet-logger
+[2020-10-11T06:34:52.753Z] IMPORTANT: hello jet-logger
+[2020-10-11T06:34:52.753Z] WARNING: hello jet-logger
+[2020-10-11T06:34:52.754Z] ERROR: hello jet-logger 
+
+[2020-10-11T06:34:52.759Z] INFO: hello jet-logger
+[2020-10-11T06:34:52.759Z] IMPORTANT: hello jet-logger
+[2020-10-11T06:34:52.760Z] WARNING: hello jet-logger
+[2020-10-11T06:34:52.760Z] ERROR: hello jet-logger 
+
+[2020-10-11T06:35:31.208Z] INFO: hello jet-logger
+[2020-10-11T06:35:31.209Z] IMPORTANT: hello jet-logger
+[2020-10-11T06:35:31.209Z] WARNING: hello jet-logger
+[2020-10-11T06:35:31.209Z] ERROR: hello jet-logger 
+
+[2020-10-11T06:35:31.214Z] INFO: hello jet-logger
+[2020-10-11T06:35:31.215Z] IMPORTANT: hello jet-logger
+[2020-10-11T06:35:31.215Z] WARNING: hello jet-logger
+[2020-10-11T06:35:31.215Z] ERROR: hello jet-logger 
+
+[2020-10-11T06:35:57.849Z] INFO: hello jet-logger
+[2020-10-11T06:35:57.850Z] IMPORTANT: hello jet-logger
+[2020-10-11T06:35:57.851Z] WARNING: hello jet-logger
+[2020-10-11T06:35:57.851Z] ERROR: hello jet-logger 
+
+[2020-10-11T06:35:57.856Z] INFO: hello jet-logger
+[2020-10-11T06:35:57.856Z] IMPORTANT: hello jet-logger
+[2020-10-11T06:35:57.857Z] WARNING: hello jet-logger
+[2020-10-11T06:35:57.858Z] ERROR: hello jet-logger 
+
+[2020-10-11T06:36:21.685Z] INFO: hello jet-logger
+[2020-10-11T06:36:21.685Z] IMPORTANT: hello jet-logger
+[2020-10-11T06:36:21.686Z] WARNING: hello jet-logger
+[2020-10-11T06:36:21.686Z] ERROR: hello jet-logger 
+
+[2020-10-11T06:36:21.694Z] INFO: hello jet-logger
+[2020-10-11T06:36:21.694Z] IMPORTANT: hello jet-logger
+[2020-10-11T06:36:21.695Z] WARNING: hello jet-logger
+[2020-10-11T06:36:21.695Z] ERROR: hello jet-logger 
+

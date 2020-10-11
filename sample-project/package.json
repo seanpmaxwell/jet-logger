@@ -44,6 +44,7 @@
     },
     "rules": { 
       "no-console": 1,
+      "no-extra-boolean-cast": 0,
       "@typescript-eslint/restrict-plus-operands": 0,
       "@typescript-eslint/explicit-module-boundary-types": 0,
       "@typescript-eslint/no-explicit-any": 0

@@ -27,7 +27,8 @@ export interface ICustomLogger {
 }
 
 
-
+// Note colors here need be a color from 
+// the colors library above.
 const Levels = {
     info: {
         color: 'green',
@@ -289,7 +290,6 @@ export class Logger {
         // Print Console
         if (mode === LoggerModes.Console) {
             content = (colors as any)[level.color](content);
-            // tslint:disable-next-line
             console.log(content);
         // Print File
         } else if (mode === LoggerModes.File) {
@@ -323,7 +323,6 @@ export class Logger {
                 fs.writeFileSync(filePath, content);
             }
         } catch (err) {
-            // tslint:disable-next-line
             console.error(err);
         }
     }
