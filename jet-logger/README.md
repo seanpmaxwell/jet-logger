@@ -4,7 +4,7 @@
 
 
 ## What is it
-Jet-Logger is an easy to configure logging that allows you change settings via the environment
+Jet-Logger is an easy to configure logging tool that allows you change settings via the environment
 variables (recommended) or manually in code. You can easily switch your logs to be printed out to the command line, a file, sent through your own custom logging logic, or turned off completely. Logs printed to the console also are printed out in different colors depending on whether they're info, a warning, an error, etc. The file for holding logs can be specified manually or left as the default. You can also have
 logs formatted as lines for easy reading or as JSON objects.
 <br/>
