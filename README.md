@@ -17,7 +17,7 @@ $ npm install --save jet-logger
 ### Guide
 The logger package's main export is the `Logger` class. Logger can used statically or as an instance 
 object with settings configured through a constructor. Variables passed through the constructor will
-take priority over environment variables.
+take priority over environment variables. Note that file-writes happend asynchronously. 
 
 - The four environment variables are:
     - `JET_LOGGER_MODE`: can be `'CONSOLE'`(default), `'FILE'`, `'CUSTOM'`, and `'OFF'`.

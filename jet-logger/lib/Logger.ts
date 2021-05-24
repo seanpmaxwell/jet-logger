@@ -338,7 +338,9 @@ class Logger {
             console.log(colorFn(content));
         // Print File
         } else if (mode === LoggerModes.File) {
-            Logger.WriteToFile(content + '\n', filePath);
+            Logger.WriteToFile(content + '\n', filePath).catch((err) => {
+                console.log(err);
+            });
         // Print with Custom logger
         } else if (mode === LoggerModes.Custom) {
             if (!!customLogger) {
@@ -359,32 +361,12 @@ class Logger {
      * @param content
      * @param filePath
      */
-    private static WriteToFile(content: string, filePath: string): void {
-        try {
-            const fileExists = Logger.CheckExists(filePath);
-            if (fileExists) {
-                fs.appendFileSync(filePath, content);
-            } else {
-                fs.writeFileSync(filePath, content);
-            }
-        } catch (err) {
-            console.error(err);
-        }
-    }
-
-
-    /**
-     * Check if a file exists at the file path.
-     * 
-     * @param filePath
-     */
-    private static CheckExists(filePath: string): boolean {
-        try {
-            fs.accessSync(filePath);
-            return true;
-        } catch (e) {
-            return false;
-        }
+    private static async WriteToFile(content: string, filePath: string): Promise<void> {
+        return new Promise((res, rej) => {
+            return fs.appendFile(filePath, content, (err) => {
+                return (!!err ? rej(err) : res());
+            })
+        });
     }
 }
 

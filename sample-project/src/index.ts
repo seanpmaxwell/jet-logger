@@ -13,6 +13,7 @@ import CustomLogger from './CustomLogger';
 
 const logger = new Logger();
 
+
 // Test out logger instance, console
 logger.info('hello jet-logger');
 logger.imp('hello jet-logger');
@@ -107,3 +108,9 @@ logger4.imp('hello jet-logger');
 logger4.warn('hello jet-logger');
 logger4.err('hello jet-logger');
 logger4.err(new Error('Demo print full error object'), true)
+
+
+/* Debug env OFF issue */
+process.env.JET_LOGGER_MODE = 'OFF';
+const logger5 = new Logger();
+logger5.err('string');
