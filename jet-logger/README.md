@@ -114,7 +114,7 @@ const customSend: TCustomLogger = (timestamp: Date, level: string, content: any)
 }
 
 router.get('api/users', async (req: Request, res: Reponse) => {
-    const logger = new Logger(LoggerModes.CUSTOM, '', true, customSend);
+    const logger = JetLogger(LoggerModes.CUSTOM, '', true, customSend);
     logger.rmTimestamp = true;
     logger.info(req.params.msg);
     return res.status(OK).json({
