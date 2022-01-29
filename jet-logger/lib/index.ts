@@ -109,7 +109,7 @@ export function JetLogger (
         imp,
         warn,
         err,
-        printLogHelper,
+        printLog,
     } as const;
 }
 
@@ -182,7 +182,7 @@ function getSettings(
  * @returns 
  */
 function info(this: TJetLogger, content: any, printFull?: boolean): void {
-    return this.printLogHelper(content, printFull ?? false, levels.info);
+    return this.printLog(content, printFull ?? false, levels.info);
 }
 
 
@@ -195,7 +195,7 @@ function info(this: TJetLogger, content: any, printFull?: boolean): void {
  * @returns 
  */
 function imp(this: TJetLogger, content: any, printFull?: boolean): void {
-    return this.printLogHelper(content, printFull ?? false, levels.imp);
+    return this.printLog(content, printFull ?? false, levels.imp);
 }
 
 
@@ -208,7 +208,7 @@ function imp(this: TJetLogger, content: any, printFull?: boolean): void {
  * @returns 
  */
 function warn(this: TJetLogger, content: any, printFull?: boolean): void {
-    return this.printLogHelper(content, printFull ?? false, levels.warn);
+    return this.printLog(content, printFull ?? false, levels.warn);
 }
 
 
@@ -221,27 +221,7 @@ function warn(this: TJetLogger, content: any, printFull?: boolean): void {
  * @returns 
  */
 function err(this: TJetLogger, content: any, printFull?: boolean): void {
-    return this.printLogHelper(content, printFull ?? false, levels.err);
-}
-
-
-/**
- * Print the log using the settings
- * 
- * @param this 
- * @param content 
- * @param printFull 
- * @param level 
- * @returns 
- */
-function printLogHelper(
-    this: TJetLogger,
-    content: any,
-    printFull: boolean,
-    level: TLevelProp,
-): void {
-    return printLog(content, printFull, level, this.settings.mode, this.settings.timestamp, 
-        this.settings.format, this.settings.filePath, this.settings.customLogger);
+    return this.printLog(content, printFull ?? false, levels.err);
 }
 
 
@@ -257,15 +237,12 @@ function printLogHelper(
  * @param customLogger
  */
 function printLog(
+    this: TJetLogger,
     content: any,
     printFull: boolean,
     level: TLevelProp,
-    mode: LoggerModes,
-    timestamp: boolean,
-    format: Formats,
-    filePath: string,
-    customLogger?: TCustomLogger,
 ): void {
+    const { mode, format, timestamp, filePath, customLogger } = this.settings;
     // Do nothing if turned off
     if (mode === LoggerModes.Off) {
         return;

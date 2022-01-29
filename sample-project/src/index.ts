@@ -19,14 +19,14 @@ logger.err(new Error('Demo print full error object'), true)
 console.log('\n')
 
 // Test out logger instance, file
-logger.settings.mode = LoggerModes.File;
-logger.info('hello jet-logger');
-logger.imp('hello jet-logger');
-logger.warn('hello jet-logger');
-logger.err('hello jet-logger \n');
+const _logger = JetLogger(LoggerModes.File);
+_logger.info('hello jet-logger');
+_logger.imp('hello jet-logger');
+_logger.warn('hello jet-logger');
+_logger.err('hello jet-logger \n');
 
 // Test out logger instance, off
-logger.settings.mode = LoggerModes.Off;
+process.env.JET_LOGGER_MODE = LoggerModes.Off
 logger.info('This line shouldn\'t print \n');
 
 
@@ -37,13 +37,11 @@ const sendLog: TCustomLogger = (timestamp: Date, level: string, content: any) =>
     console.log(colors.america(logStr));
 }
 
-logger.settings.customLogger = sendLog;
-logger.settings.mode = LoggerModes.Custom;
-logger.settings.timestamp = false;
-logger.info('hello jet-logger');
-logger.imp('hello jet-logger');
-logger.warn('hello jet-logger');
-logger.err('hello jet-logger \n');
+const logger1 = JetLogger(LoggerModes.Custom, 'jet-logger-alt2.log', true, undefined, sendLog);
+logger1.info('hello jet-logger');
+logger1.imp('hello jet-logger');
+logger1.warn('hello jet-logger');
+logger1.err('hello jet-logger \n');
 
 /* Alternate File Name */
 const logger2 = JetLogger(LoggerModes.File, 'jet-logger-alt.log', false);
