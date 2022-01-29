@@ -228,13 +228,10 @@ function err(this: TJetLogger, content: any, printFull?: boolean): void {
 /**
  * Print the log using the provided settings.
  * 
+ * @param this 
  * @param content
  * @param printFull
  * @param level
- * @param mode
- * @param timestamp
- * @param filePath
- * @param customLogger
  */
 function printLog(
     this: TJetLogger,
