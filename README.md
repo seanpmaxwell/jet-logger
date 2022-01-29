@@ -15,7 +15,7 @@ $ npm install --save jet-logger
 ```
 
 ### Guide
-The logger package's main export is the `Logger` class. Logger can used statically or as an instance 
+The logger package's main export is the `logger` object. Logger can used statically or as an instance 
 object with settings configured through a constructor. Variables passed through the constructor will
 take priority over environment variables. Note that file writes happen asynchronously. 
 
@@ -27,18 +27,17 @@ take priority over environment variables. Note that file writes happen asynchron
 
 _logger_ has an export `LoggerModes` which is an enum that provides all the modes if you want to
 use them in code. I would recommend using `Console` for local development, `File` for remote development, 
-and `Custom` or `Off` for production. If you want to change the settings in code, you can do so via 
-the constructor or getters/setters.
+and `Custom` or `Off` for production. If you want to change the settings in code, you can do so via importing the `JetLogger` function and calling it with whatever options you want.
 <br>
 
-- There are 4 functions on Logger to print logs. Each has a static counterpart:
-    - `info` or `Info`: prints green.
-    - `imp` or `Imp`: prints magenta. 
-    - `warn` or `Warn`: prints yellow.
-    - `err` or `Err`: prints red.
+- There are 4 functions on Logger to print logs.
+    - `info`: prints green.
+    - `imp`: prints magenta. 
+    - `warn`: prints yellow.
+    - `err`: prints red.
 
 There is an optional second param to each method which is a `boolean`. If you pass `true` as the second 
-param, Logger will use node's `util` so that the full object gets printed. You should NOT normally 
+param, JetLogger will use node's `util` so that the full object gets printed. You should NOT normally 
 use this param, but it is especially useful when debugging errors so that you can print out the full 
 error object and observe the stack trace.<br>
 
@@ -47,7 +46,7 @@ Let's look at some sample code in an express route:
 ````typescript
 /* Some script that is run before the route script */
 
-// Apply logger settings (Note you could also use a tool "dotenv" to set env variables)
+// Apply logger settings (Note you could also using a tool "dotenv" to set env variables)
 // These must be set before logger is imported
 const logFilePath = path.join(__dirname, '../sampleProject.log');
 process.env.JET_LOGGER_MODE = LoggerModes.File; // Can also be Console, Custom, or Off
@@ -58,25 +57,12 @@ process.env.JET_LOGGER_FILEPATH = logFilePath;
 
 import { OK } from 'http-status-codes';
 import { Router, Request, Response } from 'express';
-import Logger from 'jet-logger';
+import logger from 'jet-logger';
 
 const router = Router();
 
 
-router.get('api/users', async (req: Request, res: Reponse) => {
-    Logger.Info(req.params.msg);
-    Logger.Imp(req.params.msg);
-    Logger.Warn(req.params.msg);
-    Logger.Err(req.params.msg);
-    Logger.Err(new Error('printing out an error'));
-    Logger.Err(new Error('printing out an error full'), true); // <-- print the full Error object
-    return res.status(OK).json({
-        message: 'static_console_mode',
-    });
-});
-
 router.get('api/users/alt', async (req: Request, res: Reponse) => {
-    logger = new Logger();
     logger.info(req.params.msg);
     logger.imp(req.params.msg);
     logger.warn(req.params.msg);
@@ -111,38 +97,24 @@ router.get('api/users/alt', async (req: Request, res: Reponse) => {
 
 
 ### Using a custom logger 
-For production you'll probably have some third party logging tool like ElasticSearch or Splunk. _logger_ exports one interface `ICustomLogger` which has one method `sendLog()` that needs to implemented. If you created a class which implements this interface, and add it to Logger through a setter or the constructor and set the mode to `CUSTOM`, Logger will call whatever logic you created for `sendLog()`.
+For production you'll probably have some third party logging tool like ElasticSearch or Splunk. _logger_ exports a type `TCustomLogger` that needs to implemented. If you implement this function and pass it to JetLogger and set the mode to `CUSTOM`, Logger will call whatever logic you created for `sendLog()`.
 
-````typescript
-// CustomLoggerTool.ts
-import { ICustomLogger } from 'jet-logger';
-
-export class CustomLoggerTool implements ICustomLogger {
-
-    private readonly thirdPartyLoggingApplication: ThirdPartyLoggingApplication;
-
-    constructor() {
-        this.thirdPartyLoggingApplication = new ThirdPartyLoggingApplication();
-    }
-
-    // Needs to be implemented
-    public sendLog(timestamp: Date, prefix: string, content: any): void {
-        this.thirdPartyLoggingApplication.doStuff(...);
-    }
-}
-````
 
 ````typescript
 // In the route file
 import { OK } from 'http-status-codes';
 import { Router, Request, Response } from 'express';
-import { CustomLoggerTool } from 'CustomLoggerTool';
+import { JetLogger, ICustomLogger } from 'jet-logger';
+import { thirdPartyLoggingApp } from 'thirdPartyLoggingApplicationLib';
 
-const customLoggerTool = new CustomLoggerTool();
 
+// Needs to be implemented
+const customSend: TCustomLogger = (timestamp: Date, level: string, content: any) => {
+    thirdPartyLoggingApp.doStuff(...);
+}
 
 router.get('api/users', async (req: Request, res: Reponse) => {
-    const logger = new Logger(LoggerModes.CUSTOM, '', true, customLoggerTool);
+    const logger = new Logger(LoggerModes.CUSTOM, '', true, customSend);
     logger.rmTimestamp = true;
     logger.info(req.params.msg);
     return res.status(OK).json({
