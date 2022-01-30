@@ -61,9 +61,6 @@ const defaults = {
     format: Formats.Line,
 };
 
-// Default is logger with no manual settings
-export default JetLogger();
-
 
 
 /*****************************************************************************************
@@ -310,3 +307,7 @@ function writeToFile(content: string, filePath: string): Promise<void> {
         })
     });
 }
+
+
+// Default is logger with no manual settings
+export default JetLogger();
