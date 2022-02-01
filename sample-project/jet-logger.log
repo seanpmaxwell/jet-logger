@@ -244,3 +244,8 @@ ERROR: [2020-10-11T04:44:14.050Z] hello jet-logger
 [2022-01-29T05:54:50.062Z] WARNING: hello jet-logger
 [2022-01-29T05:54:50.062Z] ERROR: hello jet-logger 
 
+[2022-02-01T23:17:35.132Z] INFO: hello jet-logger
+[2022-02-01T23:17:35.132Z] IMPORTANT: hello jet-logger
+[2022-02-01T23:17:35.132Z] ERROR: hello jet-logger 
+
+[2022-02-01T23:17:35.132Z] WARNING: hello jet-logger

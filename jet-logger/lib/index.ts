@@ -69,6 +69,7 @@ const defaults = {
 
 type TLevelProp = typeof levels[keyof typeof levels];
 type TJetLogger = ReturnType<typeof JetLogger>;
+type TSettings = ReturnType<typeof getSettings>;
 export type TCustomLogger = (timestamp: Date, prefix: string, content: any) => void;
 
 interface IJsonFormat {
@@ -106,7 +107,6 @@ export function JetLogger (
         imp,
         warn,
         err,
-        printLog,
     } as const;
 }
 
@@ -179,7 +179,7 @@ function getSettings(
  * @returns 
  */
 function info(this: TJetLogger, content: any, printFull?: boolean): void {
-    return this.printLog(content, printFull ?? false, levels.info);
+    return printLog(content, printFull ?? false, levels.info, this.settings);
 }
 
 
@@ -192,7 +192,7 @@ function info(this: TJetLogger, content: any, printFull?: boolean): void {
  * @returns 
  */
 function imp(this: TJetLogger, content: any, printFull?: boolean): void {
-    return this.printLog(content, printFull ?? false, levels.imp);
+    return printLog(content, printFull ?? false, levels.imp, this.settings);
 }
 
 
@@ -205,7 +205,7 @@ function imp(this: TJetLogger, content: any, printFull?: boolean): void {
  * @returns 
  */
 function warn(this: TJetLogger, content: any, printFull?: boolean): void {
-    return this.printLog(content, printFull ?? false, levels.warn);
+    return printLog(content, printFull ?? false, levels.warn, this.settings);
 }
 
 
@@ -218,25 +218,25 @@ function warn(this: TJetLogger, content: any, printFull?: boolean): void {
  * @returns 
  */
 function err(this: TJetLogger, content: any, printFull?: boolean): void {
-    return this.printLog(content, printFull ?? false, levels.err);
+    return printLog(content, printFull ?? false, levels.err, this.settings);
 }
 
 
 /**
  * Print the log using the provided settings.
  * 
- * @param this 
  * @param content
  * @param printFull
  * @param level
+ * @param settings
  */
 function printLog(
-    this: TJetLogger,
     content: any,
     printFull: boolean,
     level: TLevelProp,
+    settings: TSettings,
 ): void {
-    const { mode, format, timestamp, filePath, customLogger } = this.settings;
+    const { mode, format, timestamp, filePath, customLogger } = settings;
     // Do nothing if turned off
     if (mode === LoggerModes.Off) {
         return;
