@@ -45,13 +45,13 @@ const levels = {
         color: 'red',
         prefix: 'ERROR',
     }
-};
+} as const;
 
 const errors = {
     customLoggerErr: 'Custom logger mode set to true, but no custom logger was provided.',
     modeErr: 'The correct logger mode was not specified: Must be "CUSTOM", "FILE", ' +
         '"OFF", or "CONSOLE".'
-};
+} as const;
 
 // If there are no manual or env settings
 const defaults = {
@@ -59,7 +59,7 @@ const defaults = {
     mode: LoggerModes.Console,
     timestamp: true,
     format: Formats.Line,
-};
+} as const;
 
 
 
@@ -166,7 +166,7 @@ function getSettings(
         timestamp,
         format,
         customLogger,
-    } as const;
+    };
 }
 
 
