@@ -6,7 +6,7 @@
 
 import colors from 'colors';
 import logger, { JetLogger, LoggerModes, Formats, TCustomLogger } from 'jet-logger';
-
+// logger.settings.mode = LoggerModes.Console;
 
 
 // Test out logger instance, console

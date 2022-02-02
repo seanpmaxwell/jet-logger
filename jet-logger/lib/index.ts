@@ -101,8 +101,9 @@ export function JetLogger (
     format?: Formats,
     customLogger?: TCustomLogger,
 ) {
+    const settings = getSettings(mode, filePath, timestamp, format, customLogger);
     return {
-        settings: getSettings(mode, filePath, timestamp, format, customLogger),
+        settings,
         info,
         imp,
         warn,
@@ -166,7 +167,7 @@ function getSettings(
         timestamp,
         format,
         customLogger,
-    };
+    } as const;
 }
 
 
