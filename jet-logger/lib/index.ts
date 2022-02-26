@@ -7,10 +7,7 @@ import colors from 'colors';
 import fs from 'fs';
 
 
-
-/*****************************************************************************************
- *                                     Constants
- ****************************************************************************************/
+// **** Vars/Constants **** //
 
 // Options for printing a log.
 export enum LoggerModes {
@@ -62,10 +59,7 @@ const defaults = {
 } as const;
 
 
-
-/*****************************************************************************************
- *                                     Types
- ****************************************************************************************/
+// **** Types **** //
 
 type TLevelProp = typeof levels[keyof typeof levels];
 type TJetLogger = ReturnType<typeof JetLogger>;
@@ -79,10 +73,7 @@ interface IJsonFormat {
 }
 
 
-
-/*****************************************************************************************
- *                                     Functions
- ****************************************************************************************/
+// **** Functions **** //
 
 /**
  * Main function of Jet-Logger.
@@ -111,15 +102,8 @@ export function JetLogger (
     } as const;
 }
 
-
 /**
  * Get settings manually if truthy or from the env variables.
- * 
- * @param mode 
- * @param filePath 
- * @param timestamp 
- * @param format 
- * @param customLogger 
  */
 function getSettings(
     mode?: LoggerModes,
@@ -170,66 +154,56 @@ function getSettings(
     } as const;
 }
 
-
 /**
  * Print information.
  * 
- * @param this 
- * @param content 
- * @param printFull 
+ * @param this the jet-logger instance.
+ * @param content the content to be printed.
+ * @param printFull print full object (use util.inspect())
  * @returns 
  */
 function info(this: TJetLogger, content: any, printFull?: boolean): void {
     return printLog(content, printFull ?? false, levels.info, this.settings);
 }
 
-
 /**
  * Print important.
  * 
- * @param this 
- * @param content 
- * @param printFull 
+ * @param this the jet-logger instance.
+ * @param content the content to be printed.
+ * @param printFull print full object (use util.inspect())
  * @returns 
  */
 function imp(this: TJetLogger, content: any, printFull?: boolean): void {
     return printLog(content, printFull ?? false, levels.imp, this.settings);
 }
 
-
 /**
  * Print warning.
  * 
- * @param this 
- * @param content 
- * @param printFull 
+ * @param this the jet-logger instance.
+ * @param content the content to be printed.
+ * @param printFull print full object (use util.inspect())
  * @returns 
  */
 function warn(this: TJetLogger, content: any, printFull?: boolean): void {
     return printLog(content, printFull ?? false, levels.warn, this.settings);
 }
 
-
 /**
  * Print error.
  * 
- * @param this 
- * @param content 
- * @param printFull 
+ * @param this the jet-logger instance.
+ * @param content the content to be printed.
+ * @param printFull print full object (use util.inspect())
  * @returns 
  */
 function err(this: TJetLogger, content: any, printFull?: boolean): void {
     return printLog(content, printFull ?? false, levels.err, this.settings);
 }
 
-
 /**
  * Print the log using the provided settings.
- * 
- * @param content
- * @param printFull
- * @param level
- * @param settings
  */
 function printLog(
     content: any,
@@ -294,12 +268,8 @@ function printLog(
     }
 }
 
-
 /**
  * Write logs a file instead of the console.
- * 
- * @param content
- * @param filePath
  */
 function writeToFile(content: string, filePath: string): Promise<void> {
     return new Promise((res, rej) => {
