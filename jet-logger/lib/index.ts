@@ -290,8 +290,8 @@ function printLog(
 }
 
 /**
- * Prepend the filename in the file path with a timestamp. i.e. '/home/jet-logger.log' => 
- * '/home/1659667608538_jet-logger.log'
+ * Prepend the filename in the file path with a timestamp. 
+ * i.e. '/home/jet-logger.log' => '/home/20220805T033709_jet-logger.log'
  */
 function addDatetimeToFileName(filePath: string): string {
     // Get the date string

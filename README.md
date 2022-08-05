@@ -22,7 +22,7 @@ take priority over environment variables. Note that file writes happen asynchron
 - The four environment variables are:
     - `JET_LOGGER_MODE`: can be `'CONSOLE'`(default), `'FILE'`, `'CUSTOM'`, and `'OFF'`.
     - `JET_LOGGER_FILEPATH`: the file-path for file mode. Default is `_home_dir/jet-logger.log_`.
-    - `JET_LOGGER_FILEPATH_DATETIME`: prepend the log file name with the datetime. an be `'TRUE'` (default) or `'FALSE'`.
+    - `JET_LOGGER_FILEPATH_DATETIME`: prepend the log file name with the datetime. Can be `'TRUE'` (default) or `'FALSE'`.
     - `JET_LOGGER_TIMESTAMP`: adds a timestamp next to each log. Can be `'TRUE'` (default) or `'FALSE'`.
     - `JET_LOGGER_FORMAT`: formats log as a line or JSON object. Can be `'LINE'` (default) or `'JSON'`.
 
