@@ -32,19 +32,20 @@ logger.info('This line shouldn\'t print \n');
 
 // Test custom logging
 const sendLog: TCustomLogger = (timestamp: Date, level: string, content: any) => {
-    const logStr = timestamp.toISOString() + ' ' + level + ': ' + content;
+    const logStr = (timestamp.toISOString() + ' ' + level + ': ' + content);
     // eslint-disable-next-line no-console
     console.log(colors.america(logStr));
 }
 
-const logger1 = JetLogger(LoggerModes.Custom, 'jet-logger-alt2.log', true, undefined, sendLog);
+const logger1 = JetLogger(LoggerModes.Custom, 'jet-logger-alt2.log', true, true, undefined, 
+    sendLog);
 logger1.info('hello jet-logger');
 logger1.imp('hello jet-logger');
 logger1.warn('hello jet-logger');
 logger1.err('hello jet-logger \n');
 
 /* Alternate File Name */
-const logger2 = JetLogger(LoggerModes.File, 'jet-logger-alt.log', false);
+const logger2 = JetLogger(LoggerModes.File, 'jet-logger-alt.log', false, false);
 logger2.info('hello jet-logger');
 logger2.imp('hello jet-logger');
 logger2.warn('hello jet-logger');

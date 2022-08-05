@@ -7,7 +7,7 @@ import colors from 'colors';
 import fs from 'fs';
 
 
-// **** Vars/Constants **** //
+// **** Variables **** //
 
 // Options for printing a log.
 export enum LoggerModes {
@@ -52,9 +52,10 @@ const errors = {
 
 // If there are no manual or env settings
 const defaults = {
-    fileName: 'jet-logger.log',
+    filepath: 'jet-logger.log',
     mode: LoggerModes.Console,
     timestamp: true,
+    filepathDatetime: true,
     format: Formats.Line,
 } as const;
 
@@ -79,27 +80,24 @@ interface IJsonFormat {
  * Main function of Jet-Logger.
  * 
  * @param mode 
- * @param filePath 
- * @param timestamp 
+ * @param filepath 
+ * @param timestamp
+ * @param filepathDatetime
  * @param format 
  * @param customLogger 
  * @returns 
  */
 export function JetLogger (
     mode?: LoggerModes,
-    filePath?: string,
+    filepath?: string,
+    filepathDatetime?: boolean,
     timestamp?: boolean,
     format?: Formats,
     customLogger?: TCustomLogger,
 ) {
-    const settings = getSettings(mode, filePath, timestamp, format, customLogger);
-    return {
-        settings,
-        info,
-        imp,
-        warn,
-        err,
-    } as const;
+    const settings = getSettings(mode, filepath, timestamp, filepathDatetime, format,
+        customLogger);
+    return { settings, info, imp, warn, err } as const;
 }
 
 /**
@@ -107,7 +105,8 @@ export function JetLogger (
  */
 function getSettings(
     mode?: LoggerModes,
-    filePath?: string,
+    filepath?: string,
+    filepathDatetime?: boolean,
     timestamp?: boolean,
     format?: Formats,
     customLogger?: TCustomLogger,
@@ -120,16 +119,25 @@ function getSettings(
             mode = defaults.mode;
         }
     }
-    // FilePath
-    if (!filePath) {
+    // Filepath
+    if (!filepath) {
         if (!!process.env.JET_LOGGER_FILEPATH) {
-            filePath = process.env.JET_LOGGER_FILEPATH;
+            filepath = process.env.JET_LOGGER_FILEPATH;
         } else {
-            filePath = defaults.fileName;
+            filepath = defaults.filepath;
+        }
+    }
+    // FilePath dateTime
+    if (filepathDatetime === undefined) {
+        if (!!process.env.JET_LOGGER_FILEPATH_DATETIME) {
+            filepathDatetime = (process.env.JET_LOGGER_FILEPATH_DATETIME.toUpperCase() === 
+                'TRUE');
+        } else {
+            filepathDatetime = defaults.filepathDatetime;
         }
     }
     // Timestamp
-    if (!timestamp) {
+    if (timestamp === undefined) {
         if (!!process.env.JET_LOGGER_TIMESTAMP) {
             timestamp = (process.env.JET_LOGGER_TIMESTAMP.toUpperCase() === 'TRUE');
         } else {
@@ -147,7 +155,8 @@ function getSettings(
     // Return
     return {
         mode,
-        filePath,
+        filepath,
+        filepathDatetime,
         timestamp,
         format,
         customLogger,
@@ -211,7 +220,15 @@ function printLog(
     level: TLevelProp,
     settings: TSettings,
 ): void {
-    const { mode, format, timestamp, filePath, customLogger } = settings;
+    // Settings
+    const {
+        mode,
+        format,
+        timestamp,
+        filepath,
+        filepathDatetime,
+        customLogger,
+    } = settings;
     // Do nothing if turned off
     if (mode === LoggerModes.Off) {
         return;
@@ -253,9 +270,13 @@ function printLog(
         console.log(colorFn(content));
     // Print File
     } else if (mode === LoggerModes.File) {
-        writeToFile(content + '\n', filePath).catch((err) => {
-            console.log(err);
-        });
+        let filePathFinal = filepath;
+        if (filepathDatetime) {
+            filePathFinal = addDatetimeToFileName(filepath);
+        }
+        // pick up here
+        writeToFile(content + '\n', filePathFinal)
+            .catch((err) => console.log(err));
     // Print with Custom logger
     } else if (mode === LoggerModes.Custom) {
         if (!!customLogger) {
@@ -264,8 +285,28 @@ function printLog(
             throw Error(errors.customLoggerErr);
         }
     } else {
-        throw Error(errors.modeErr)
+        throw Error(errors.modeErr);
     }
+}
+
+/**
+ * Prepend the filename in the file path with a timestamp. i.e. '/home/jet-logger.log' => 
+ * '/home/1659667608538_jet-logger.log'
+ */
+function addDatetimeToFileName(filePath: string): string {
+    // Get the date string
+    const dateStr = new Date().toISOString()
+        .split('-').join('')
+        .split(':').join('')
+        .slice(0, 15);
+    // Setup new file name
+    const filePathArr = filePath.split('/'),
+        lastIdx = filePathArr.length - 1,
+        fileName = filePathArr[lastIdx];
+    const fileNameNew = (dateStr + '_' + fileName);
+    // Setup new file path
+    filePathArr[lastIdx] = fileNameNew;
+    return filePathArr.join('/');
 }
 
 /**
@@ -279,6 +320,8 @@ function writeToFile(content: string, filePath: string): Promise<void> {
     });
 }
 
+
+// **** Export default **** //
 
 // Default is logger with no manual settings
 export default JetLogger();
