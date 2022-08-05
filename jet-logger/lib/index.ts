@@ -128,16 +128,16 @@ function getSettings(
         }
     }
     // FilePath dateTime
-    if (filepathDatetime === undefined) {
-        if (!!process.env.JET_LOGGER_FILEPATH_DATETIME) {
-            filepathDatetime = (process.env.JET_LOGGER_FILEPATH_DATETIME.toUpperCase() === 
-                'TRUE');
+    if (filepathDatetime === undefined || filepathDatetime === null) {
+        const envVar = process.env.JET_LOGGER_FILEPATH_DATETIME;
+        if (!!envVar) {
+            filepathDatetime = (envVar.toUpperCase() === 'TRUE');
         } else {
             filepathDatetime = defaults.filepathDatetime;
         }
     }
     // Timestamp
-    if (timestamp === undefined) {
+    if (timestamp === undefined || timestamp === null) {
         if (!!process.env.JET_LOGGER_TIMESTAMP) {
             timestamp = (process.env.JET_LOGGER_TIMESTAMP.toUpperCase() === 'TRUE');
         } else {
@@ -302,8 +302,8 @@ function addDatetimeToFileName(filePath: string): string {
     // Setup new file name
     const filePathArr = filePath.split('/'),
         lastIdx = filePathArr.length - 1,
-        fileName = filePathArr[lastIdx];
-    const fileNameNew = (dateStr + '_' + fileName);
+        fileName = filePathArr[lastIdx],
+        fileNameNew = (dateStr + '_' + fileName);
     // Setup new file path
     filePathArr[lastIdx] = fileNameNew;
     return filePathArr.join('/');
