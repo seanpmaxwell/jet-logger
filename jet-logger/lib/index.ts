@@ -44,6 +44,7 @@ const levels = {
     }
 } as const;
 
+// Errors
 const errors = {
     customLoggerErr: 'Custom logger mode set to true, but no custom logger was provided.',
     modeErr: 'The correct logger mode was not specified: Must be "CUSTOM", "FILE", ' +
@@ -152,6 +153,10 @@ function getSettings(
             format = defaults.format;
         }
     }
+    // Modify filepath if filepath datetime is true
+    if (filepathDatetime) {
+        filepath = addDatetimeToFileName(filepath);
+    }
     // Return
     return {
         mode,
@@ -226,7 +231,6 @@ function printLog(
         format,
         timestamp,
         filepath,
-        filepathDatetime,
         customLogger,
     } = settings;
     // Do nothing if turned off
@@ -255,7 +259,7 @@ function printLog(
     if (timestamp) {
         if (format === Formats.Line) {
             const time = '[' + new Date().toISOString() + '] ';
-            content = time + content;
+            content = (time + content);
         } else if (format === Formats.Json) {
             jsonContent.timestamp = new Date().toISOString();
         }
@@ -270,12 +274,7 @@ function printLog(
         console.log(colorFn(content));
     // Print File
     } else if (mode === LoggerModes.File) {
-        let filePathFinal = filepath;
-        if (filepathDatetime) {
-            filePathFinal = addDatetimeToFileName(filepath);
-        }
-        // pick up here
-        writeToFile(content + '\n', filePathFinal)
+        writeToFile(content + '\n', filepath)
             .catch((err) => console.log(err));
     // Print with Custom logger
     } else if (mode === LoggerModes.Custom) {
@@ -314,9 +313,8 @@ function addDatetimeToFileName(filePath: string): string {
  */
 function writeToFile(content: string, filePath: string): Promise<void> {
     return new Promise((res, rej) => {
-        return fs.appendFile(filePath, content, (err) => {
-            return (!!err ? rej(err) : res());
-        })
+        const fn = ((err: NodeJS.ErrnoException | null) => !!err ? rej(err) : res());
+        return fs.appendFile(filePath, content, fn);
     });
 }
 

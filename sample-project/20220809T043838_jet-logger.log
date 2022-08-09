@@ -1,0 +1,5 @@
+[2022-08-09T04:38:38.279Z] INFO: hello jet-logger
+[2022-08-09T04:38:38.279Z] WARNING: hello jet-logger
+[2022-08-09T04:38:38.279Z] IMPORTANT: hello jet-logger
+[2022-08-09T04:38:38.279Z] ERROR: hello jet-logger 
+

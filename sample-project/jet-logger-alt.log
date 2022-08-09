@@ -1,5 +1,5 @@
-IMPORTANT: hello jet-logger
 INFO: hello jet-logger
+IMPORTANT: hello jet-logger
 WARNING: hello jet-logger
 ERROR: hello jet-logger
 ERROR: Error: Demo print full error object

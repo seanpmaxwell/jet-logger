@@ -1,8 +1,7 @@
-[2022-08-05T03:37:09.904Z] INFO: hello jet-logger
-[2022-08-05T03:37:09.904Z] IMPORTANT: hello jet-logger
-[2022-08-05T03:37:09.904Z] WARNING: hello jet-logger
-[2022-08-05T03:37:09.904Z] ERROR: hello jet-logger
-[2022-08-05T03:37:09.905Z] ERROR: Error: Demo print full error object
+[2022-08-09T04:38:38.281Z] INFO: hello jet-logger
+[2022-08-09T04:38:38.281Z] IMPORTANT: hello jet-logger
+[2022-08-09T04:38:38.281Z] WARNING: hello jet-logger
+[2022-08-09T04:38:38.282Z] ERROR: Error: Demo print full error object
     at Object.<anonymous> (/home/sean/Projects/jet-logger/sample-project/src/index.ts:64:13)
     at Module._compile (node:internal/modules/cjs/loader:1103:14)
     at Module.m._compile (/usr/local/lib/node_modules/ts-node/src/index.ts:1618:23)
@@ -13,3 +12,4 @@
     at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:77:12)
     at phase4 (/usr/local/lib/node_modules/ts-node/src/bin.ts:649:14)
     at bootstrap (/usr/local/lib/node_modules/ts-node/src/bin.ts:95:10)
+[2022-08-09T04:38:38.281Z] ERROR: hello jet-logger
