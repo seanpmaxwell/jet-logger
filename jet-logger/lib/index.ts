@@ -169,6 +169,26 @@ function getSettings(
 }
 
 /**
+ * Prepend the filename in the file path with a timestamp. 
+ * i.e. '/home/jet-logger.log' => '/home/20220805T033709_jet-logger.log'
+ */
+function addDatetimeToFileName(filePath: string): string {
+    // Get the date string
+    const dateStr = new Date().toISOString()
+        .split('-').join('')
+        .split(':').join('')
+        .slice(0, 15);
+    // Setup new file name
+    const filePathArr = filePath.split('/'),
+        lastIdx = filePathArr.length - 1,
+        fileName = filePathArr[lastIdx],
+        fileNameNew = (dateStr + '_' + fileName);
+    // Setup new file path
+    filePathArr[lastIdx] = fileNameNew;
+    return filePathArr.join('/');
+}
+
+/**
  * Print information.
  * 
  * @param this the jet-logger instance.
@@ -286,26 +306,6 @@ function printLog(
     } else {
         throw Error(errors.modeErr);
     }
-}
-
-/**
- * Prepend the filename in the file path with a timestamp. 
- * i.e. '/home/jet-logger.log' => '/home/20220805T033709_jet-logger.log'
- */
-function addDatetimeToFileName(filePath: string): string {
-    // Get the date string
-    const dateStr = new Date().toISOString()
-        .split('-').join('')
-        .split(':').join('')
-        .slice(0, 15);
-    // Setup new file name
-    const filePathArr = filePath.split('/'),
-        lastIdx = filePathArr.length - 1,
-        fileName = filePathArr[lastIdx],
-        fileNameNew = (dateStr + '_' + fileName);
-    // Setup new file path
-    filePathArr[lastIdx] = fileNameNew;
-    return filePathArr.join('/');
 }
 
 /**
