@@ -4,9 +4,7 @@
 
 
 ## What is it
-Jet-Logger is an easy to configure logging tool that allows you change settings via the environment
-variables (recommended) or manually in code. You can easily switch your logs to be printed out to the command line, a file, sent through your own custom logging logic, or turned off completely. Logs printed to the console also are printed out in different colors depending on whether they're info, a warning, an error, etc. The file for holding logs can be specified manually or left as the default. You can also have
-logs formatted as lines for easy reading or as JSON objects.
+Jet-Logger is an easy to configure logging tool that allows you change settings via the environment variables (recommended) or manually in code. You can easily switch your logs to be printed out to the command line, a file, sent through your own custom logging logic, or turned off completely. Logs printed to the console also are printed out in different colors depending on whether they're info, a warning, an error, etc. The file for holding logs can be specified manually or left as the default. You can also have logs formatted as lines for easy reading or as JSON objects.
 <br/>
 
 ### Installation
@@ -17,14 +15,14 @@ $ npm install --save jet-logger
 ### Guide
 The logger package's main export is the `logger` object. Logger can used statically or as an instance 
 object with settings configured through a constructor. Variables passed through the constructor will
-take priority over environment variables. Note that file writes happen asynchronously. 
+take priority over environment variables. Note that file writes happen asynchronously.
 
 - The four environment variables are:
-    - `JET_LOGGER_MODE`: can be `'CONSOLE'`(default), `'FILE'`, `'CUSTOM'`, and `'OFF'`.
-    - `JET_LOGGER_FILEPATH`: the file-path for file mode. Default is `_home_dir/jet-logger.log_`.
-    - `JET_LOGGER_FILEPATH_DATETIME`: prepend the log file name with the datetime. Can be `'TRUE'` (default) or `'FALSE'`.
-    - `JET_LOGGER_TIMESTAMP`: adds a timestamp next to each log. Can be `'TRUE'` (default) or `'FALSE'`.
-    - `JET_LOGGER_FORMAT`: formats log as a line or JSON object. Can be `'LINE'` (default) or `'JSON'`.
+  - `JET_LOGGER_MODE`: can be `'CONSOLE'`(default), `'FILE'`, `'CUSTOM'`, and `'OFF'`.
+  - `JET_LOGGER_FILEPATH`: the file-path for file mode. Default is `_home_dir/jet-logger.log_`.
+  - `JET_LOGGER_FILEPATH_DATETIME`: prepend the log file name with the datetime. Can be `'TRUE'` (default) or `'FALSE'`.
+  - `JET_LOGGER_TIMESTAMP`: adds a timestamp next to each log. Can be `'TRUE'` (default) or `'FALSE'`.
+  - `JET_LOGGER_FORMAT`: formats log as a line or JSON object. Can be `'LINE'` (default) or `'JSON'`.
 
 _logger_ has an export `LoggerModes` which is an enum that provides all the modes if you want to
 use them in code. I would recommend using `Console` for local development, `File` for remote development, 
@@ -32,17 +30,18 @@ and `Custom` or `Off` for production. If you want to change the settings in code
 <br>
 
 - There are 4 functions on Logger to print logs.
-    - `info`: prints green.
-    - `imp`: prints magenta. 
-    - `warn`: prints yellow.
-    - `err`: prints red.
+  - `info`: prints green.
+  - `imp`: prints magenta. 
+  - `warn`: prints yellow.
+  - `err`: prints red.
 
 There is an optional second param to each method which is a `boolean`. If you pass `true` as the second 
 param, JetLogger will use node's `util` so that the full object gets printed. You should NOT normally 
 use this param, but it is especially useful when debugging errors so that you can print out the full 
 error object and observe the stack trace.<br>
 
-Let's look at some sample code in an express route:
+Let's look at some sample code in an express route. Here's a link to a sample-project which displays similiar to what's below (https://github.com/seanpmaxwell/jet-logger-sample).
+
 
 ````typescript
 /* Some script that is run before the route script */
@@ -64,15 +63,15 @@ const router = Router();
 
 
 router.get('api/users/alt', async (req: Request, res: Reponse) => {
-    logger.info(req.params.msg);
-    logger.imp(req.params.msg);
-    logger.warn(req.params.msg);
-    logger.err(req.params.msg);
-    logger.err(new Error('printing out an error'));
-    logger.err(new Error('printing out an error full'), true);  // <-- print the full Error object
-    return res.status(OK).json({
-        message: 'console_mode',
-    });
+  logger.info(req.params.msg);
+  logger.imp(req.params.msg);
+  logger.warn(req.params.msg);
+  logger.err(req.params.msg);
+  logger.err(new Error('printing out an error'));
+  logger.err(new Error('printing out an error full'), true);  // <-- print the full Error object
+  return res.status(OK).json({
+    message: 'console_mode',
+  });
 });
 ````
 
@@ -111,15 +110,15 @@ import { thirdPartyLoggingApp } from 'thirdPartyLoggingApplicationLib';
 
 // Needs to be implemented
 const customSend: TCustomLogger = (timestamp: Date, level: string, content: any) => {
-    thirdPartyLoggingApp.doStuff(...);
+  thirdPartyLoggingApp.doStuff(...);
 }
 
 router.get('api/users', async (req: Request, res: Reponse) => {
-    const logger = JetLogger(LoggerModes.CUSTOM, '', true, true, undefined, customSend);
-    logger.rmTimestamp = true;
-    logger.info(req.params.msg);
-    return res.status(OK).json({
-        message: 'console_mode',
-    });
+  const logger = JetLogger(LoggerModes.CUSTOM, '', true, true, undefined, customSend);
+  logger.rmTimestamp = true;
+  logger.info(req.params.msg);
+  return res.status(OK).json({
+    message: 'console_mode',
+  });
 });
 ````

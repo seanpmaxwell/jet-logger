@@ -5,6 +5,7 @@ export {
   LoggerModes,
   Formats,
   TCustomLogger,
+  JetLogger,
 } from './JetLogger';
 
 // Default is logger with no manual settings
