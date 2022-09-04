@@ -40,7 +40,7 @@ param, JetLogger will use node's `util` so that the full object gets printed. Yo
 use this param, but it is especially useful when debugging errors so that you can print out the full 
 error object and observe the stack trace.<br>
 
-Let's look at some sample code in an express route. Here's a link to a sample-project which displays similiar to what's below (https://github.com/seanpmaxwell/jet-logger-sample).
+Let's look at some sample code in an express route. Here's a link to a sample-project which displays similar to what's below (https://github.com/seanpmaxwell/jet-logger-sample).
 
 
 ````typescript
