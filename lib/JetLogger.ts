@@ -227,17 +227,18 @@ function printLog(
   // Do nothing if turned off
   if (mode === LoggerModes.Off) {
     return;
+  }
+  // Print full
+  if (printFull) {
+    content = util.inspect(content);
+  }
   // Fire the custom logger if that's the option
-  } else if (mode === LoggerModes.Custom) {
+  if (mode === LoggerModes.Custom) {
     if (!!customLogger) {
       return customLogger(new Date(), level.prefix, content);
     } else {
       throw Error(errors.customLoggerErr);
     }
-  }
-  // Print full
-  if (printFull) {
-    content = util.inspect(content);
   }
   // Print line or json
   if (format === Formats.Line) {
