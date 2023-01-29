@@ -111,16 +111,16 @@ export function jetLogger(
   customLogFn?: TCustomLogFn,
 ): ILogger {
   // Get settings
-  const settings = getSettings(mode, filepath, timestamp, filepathDatetime, 
+  const settings = _getSettings(mode, filepath, timestamp, filepathDatetime, 
     format, customLogFn);
   // Return
-  return { settings, info, imp, warn, err } as const;
+  return { settings, info, imp, warn, err };
 }
 
 /**
  * Get settings manually if truthy or from the env variables.
  */
-function getSettings(
+function _getSettings(
   mode?: LoggerModes,
   filepath?: string,
   filepathDatetime?: boolean,
@@ -171,7 +171,7 @@ function getSettings(
   }
   // Modify filepath if filepath datetime is true
   if (filepathDatetime) {
-    filepath = addDatetimeToFileName(filepath);
+    filepath = _addDatetimeToFileName(filepath);
   }
   // Return
   return {
@@ -188,7 +188,7 @@ function getSettings(
  * Prepend the filename in the file path with a timestamp. 
  * i.e. '/home/jet-logger.log' => '/home/20220805T033709_jet-logger.log'
  */
-function addDatetimeToFileName(filePath: string): string {
+function _addDatetimeToFileName(filePath: string): string {
   // Get the date string
   const dateStr = new Date().toISOString()
     .split('-').join('')
@@ -208,34 +208,34 @@ function addDatetimeToFileName(filePath: string): string {
  * Print information.
  */
 function info(this: ILogger, content: any, printFull?: boolean): void {
-  return printLog(content, printFull ?? false, Levels.Info, this.settings);
+  return _printLog(content, printFull ?? false, Levels.Info, this.settings);
 }
 
 /**
  * Print important.
  */
 function imp(this: ILogger, content: any, printFull?: boolean): void {
-  return printLog(content, printFull ?? false, Levels.Imp, this.settings);
+  return _printLog(content, printFull ?? false, Levels.Imp, this.settings);
 }
 
 /**
  * Print warning.
  */
 function warn(this: ILogger, content: any, printFull?: boolean): void {
-  return printLog(content, printFull ?? false, Levels.Warn, this.settings);
+  return _printLog(content, printFull ?? false, Levels.Warn, this.settings);
 }
 
 /**
  * Print error.
  */
 function err(this: ILogger, content: any, printFull?: boolean): void {
-  return printLog(content, printFull ?? false, Levels.Err, this.settings);
+  return _printLog(content, printFull ?? false, Levels.Err, this.settings);
 }
 
 /**
  * Print the log using the provided settings.
  */
-function printLog(
+function _printLog(
   content: any,
   printFull: boolean,
   level: TLevelProp,
@@ -267,9 +267,9 @@ function printLog(
   }
   // Print line or json
   if (format === Formats.Line) {
-    content = setupLineFormat(content, timestamp, level);
+    content = _setupLineFormat(content, timestamp, level);
   } else if (format === Formats.Json) {
-    content = setupJsonFormat(content, timestamp, level);
+    content = _setupJsonFormat(content, timestamp, level);
   }
   // Print Console
   if (mode === LoggerModes.Console) {
@@ -277,7 +277,7 @@ function printLog(
     console.log(colorFn(content));
   // Print File
   } else if (mode === LoggerModes.File) {
-    writeToFile(content + '\n', filepath)
+    _writeToFile(content + '\n', filepath)
         .catch((err) => console.log(err));
   // If reach this point, mode setting was bad
   } else {
@@ -288,7 +288,7 @@ function printLog(
 /**
  * Setup line format.
  */
-function setupLineFormat(
+function _setupLineFormat(
   content: string,
   timestamp: boolean,
   level: TLevelProp,
@@ -306,7 +306,7 @@ function setupLineFormat(
 /**
  * Setup json format.
  */
-function setupJsonFormat(
+function _setupJsonFormat(
   content: string,
   timestamp: boolean,
   level: TLevelProp,
@@ -326,7 +326,7 @@ function setupJsonFormat(
 /**
  * Write logs a file instead of the console.
  */
-function writeToFile(content: string, filePath: string): Promise<void> {
+function _writeToFile(content: string, filePath: string): Promise<void> {
   return new Promise((res, rej) => {
     return fs.appendFile(filePath, content, (err => !!err ? rej(err) : res()));
   });

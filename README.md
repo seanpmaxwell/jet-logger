@@ -108,7 +108,7 @@ const customSend: TCustomLogFn = (timestamp: Date, level: string, content: any) 
 
 router.get('api/users', async (req: Request, res: Reponse) => {
   const logger: ILogger = jetLogger(LoggerModes.CUSTOM, '', true, true, undefined, customSend);
-  logger.rmTimestamp = true;
+  logger.settings.rmTimestamp = true;
   logger.info(req.params.msg);
   return res.status(OK).json({
     message: 'console_mode',

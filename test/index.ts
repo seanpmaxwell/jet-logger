@@ -11,7 +11,7 @@ import logger, {
   Formats,
   TCustomLogFn,
 } from '../lib/index';
-// logger.settings.mode = LoggerModes.Console;
+// logger.settings.mode = LoggerModes.Console
 
 
 // Test out logger instance, console
