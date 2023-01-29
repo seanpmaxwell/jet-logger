@@ -2,6 +2,7 @@
 
 # ignore dev files
 lib/**/*.ts
+test/
 
 # not needed npm stuff
 package-lock.json

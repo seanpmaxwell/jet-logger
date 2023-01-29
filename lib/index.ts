@@ -1,12 +1,12 @@
-import { JetLogger } from './JetLogger';
-
+/**
+ * Export
+ */
 
 export {
   LoggerModes,
   Formats,
-  TCustomLogger,
-  JetLogger,
-} from './JetLogger';
-
-// Default is logger with no manual settings
-export default JetLogger();
+  TCustomLogFn,
+  ILogger,
+  jetLogger,
+  default as default,
+} from './jetLogger';
