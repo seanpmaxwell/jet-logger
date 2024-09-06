@@ -6,7 +6,6 @@ export {
   LoggerModes,
   Formats,
   TCustomLogFn,
-  ILogger,
-  jetLogger,
+  JetLogger,
   default as default,
-} from './jetLogger';
+} from './JetLogger';

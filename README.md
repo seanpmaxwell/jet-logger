@@ -13,7 +13,7 @@ $ npm install --save jet-logger
 ```
 
 ### Guide
-The logger package's main export is the default `logger` object. This default export will use of course, all the default settings. If you wish to pass your own settings you can import the `jetLogger()` function and pass parameters to configure your own custom logging objects.
+The logger package's default export is an instance of the `JetLogger` class. This default export uses all the default settings. If you wish to pass your own settings you can import the `JetLogger` class and pass parameters to the constructor to configure your own custom logger.
 
 - The five environment variables are:
   - `JET_LOGGER_MODE`: can be `'CONSOLE'`(default), `'FILE'`, `'CUSTOM'`, and `'OFF'`.
@@ -22,7 +22,7 @@ The logger package's main export is the default `logger` object. This default ex
   - `JET_LOGGER_TIMESTAMP`: adds a timestamp next to each log. Can be `'TRUE'` (default) or `'FALSE'`.
   - `JET_LOGGER_FORMAT`: formats log as a line or JSON object. Can be `'LINE'` (default) or `'JSON'`.
 
-_logger_ has an export `LoggerModes` which is an enum that provides all the modes if you want to use them in code. I would recommend using `Console` for local development, `File` for remote development, and `Custom` or `Off` for production. If you want to change the settings in code, you can do so via importing the `JetLogger` function and calling it with whatever options you want.
+_logger_ has an export `LoggerModes` which is an enum that provides all the modes if you want to use them in code. I would recommend using `Console` for local development, `File` for remote development, and `Custom` or `Off` for production. If you want to change the settings in code, you can do so via importing the `JetLogger` class and calling it with whatever options you want.
 <br>
 
 - There are 4 functions on Logger to print logs.
@@ -97,18 +97,17 @@ For production you'll probably have some third party logging tool like ElasticSe
 // In the route file
 import { OK } from 'http-status-codes';
 import { Router, Request, Response } from 'express';
-import { jetLogger, TCustomLogFn, ILogger } from 'jet-logger';
+import { JetLogger, TCustomLogFn } from 'jet-logger';
 import { thirdPartyLoggingApp } from 'thirdPartyLoggingApplicationLib';
 
 
 // Needs to be implemented
-const customSend: TCustomLogFn = (timestamp: Date, level: string, content: any) => {
+const customSend: TCustomLogFn = (timestamp: Date, level: string, content: unknown) => {
   thirdPartyLoggingApp.doStuff(...);
 }
 
 router.get('api/users', async (req: Request, res: Reponse) => {
-  const logger: ILogger = jetLogger(LoggerModes.CUSTOM, '', true, true, undefined, customSend);
-  logger.settings.rmTimestamp = true;
+  const logger = new JetLogger(LoggerModes.CUSTOM, '', true, true, undefined, customSend);
   logger.info(req.params.msg);
   return res.status(OK).json({
     message: 'console_mode',
