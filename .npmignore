@@ -3,11 +3,14 @@
 # ignore dev files
 lib/**/*.ts
 test/
+*.log
+README.MD
 
 # not needed npm stuff
 package-lock.json
 node_modules
 tsconfig.json
+tsconfig.build.json
 
 # include typings files
 !*.d.ts
