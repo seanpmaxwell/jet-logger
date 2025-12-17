@@ -3,14 +3,14 @@
   "version": "2.1.0",
   "description": "A super quick, easy to setup logging tool for NodeJS/TypeScript.",
   "type": "module",
-  "main": "./dist/cjs/index.cjs",
+  "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "browser": "./dist/esm/index.js",
   "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.cjs",
+      "require": "./dist/cjs/index.js",
       "types": "./dist/types/index.d.ts"
     }
   },
