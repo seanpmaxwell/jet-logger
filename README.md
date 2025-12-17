@@ -1,116 +1,112 @@
-# Jet-Logger
+# Jet-Logger ✈️
 
-> A super quick, easy to setup logging tool for NodeJS/TypeScript.
+> Super fast, zero-dependency logging for Node.js and TypeScript projects.
 
+[![npm version](https://img.shields.io/npm/v/jet-logger?logo=npm&label=npm)](https://www.npmjs.com/package/jet-logger)
+[![npm downloads](https://img.shields.io/npm/dm/jet-logger?color=orange)](https://www.npmjs.com/package/jet-logger)
+[![License](https://img.shields.io/npm/l/jet-logger)](https://github.com/seanpmaxwell/jet-logger/blob/master/LICENSE)
+[![TypeScript definitions](https://img.shields.io/badge/TypeScript-ready-3178c6?logo=typescript&logoColor=white)](https://www.npmjs.com/package/jet-logger)
 
-## What is it
-jet-logger is an easy to configure logging tool that allows you change settings via the environment variables (recommended) or manually in code. You can easily switch your logs to be printed out to the command line, written in a file, sent through your own custom logging logic, or turned off completely. Logs printed to the console also are printed out in different colors depending on whether they're info, a warning, an error, etc. The file for holding logs can be specified manually or left as the default. You can also have logs formatted as lines for easy reading or as JSON objects.
-<br/>
+Jet-Logger is an easy-to-configure logger that can print to the console, write to disk, or forward events to your own transport. Configure it entirely through environment variables or in code, and get colorized output, timestamps, and JSON log formatting out-of-the-box.
 
-### Installation
-```batch
-$ npm install --save jet-logger
+## Features
+
+- Zero-dependency logger written in TypeScript
+- Console, file, custom, and silent modes with one-line configuration
+- Color-coded output for `info`, `imp`, `warn`, and `err` levels
+- Optional JSON formatting, timestamps, and automatic file names
+- Strongly typed API with enums and helper types for custom transports
+
+## Installation
+
+```bash
+npm install jet-logger
+# or
+yarn add jet-logger
 ```
 
-### Guide
-The logger package's default export is an instance of the `JetLogger` class. This default export uses all the default settings. If you wish to pass your own settings you can import the `JetLogger` class and pass parameters to the constructor to configure your own custom logger.
+## Quick Start
 
-- The five environment variables are:
-  - `JET_LOGGER_MODE`: can be `'CONSOLE'`(default), `'FILE'`, `'CUSTOM'`, and `'OFF'`.
-  - `JET_LOGGER_FILEPATH`: the file-path for file mode. Default is `_home_dir/jet-logger.log_`.
-  - `JET_LOGGER_FILEPATH_DATETIME`: prepend the log file name with the datetime. Can be `'TRUE'` (default) or `'FALSE'`.
-  - `JET_LOGGER_TIMESTAMP`: adds a timestamp next to each log. Can be `'TRUE'` (default) or `'FALSE'`.
-  - `JET_LOGGER_FORMAT`: formats log as a line or JSON object. Can be `'LINE'` (default) or `'JSON'`.
-
-_logger_ has an export `LoggerModes` which is an enum that provides all the modes if you want to use them in code. I would recommend using `Console` for local development, `File` for remote development, and `Custom` or `Off` for production. If you want to change the settings in code, you can do so via importing the `JetLogger` class and calling it with whatever options you want.
-<br>
-
-- There are 4 functions on Logger to print logs.
-  - `info`: prints green.
-  - `imp`: prints magenta. 
-  - `warn`: prints yellow.
-  - `err`: prints red.
-
-There is an optional second param to each method which is a `boolean`. If you pass `true` as the second param, JetLogger will use node's `util` so that the full object gets printed. You should NOT normally use this param, but it is especially useful when debugging errors so that you can print out the full error object and observe the stack trace.<br>
-
-Let's look at some sample code in an express route.
-
-
-````typescript
-/* Some script that is run before the route script */
-
-// Apply logger settings (Note you could also using a tool "dotenv" to set env variables)
-// These must be set before logger is imported
-const logFilePath = path.join(__dirname, '../sampleProject.log');
-process.env.JET_LOGGER_MODE = LoggerModes.File; // Can also be Console, Custom, or Off
-process.env.JET_LOGGER_FILEPATH = logFilePath;
-
-
-/* In you route script */
-
-import { OK } from 'http-status-codes';
-import { Router, Request, Response } from 'express';
+```typescript
 import logger from 'jet-logger';
 
+logger.info('Server started');
+logger.imp('Ready for requests');
+logger.warn('Cache miss');
+logger.err(new Error('Unexpected error'));
+```
 
-const router = Router();
+The default export is a pre-configured `JetLogger` instance. For custom behavior you can import the class directly:
 
-router.get('api/users/alt', async (req: Request, res: Reponse) => {
-  logger.info(req.params.msg);
-  logger.imp(req.params.msg);
-  logger.warn(req.params.msg);
-  logger.err(req.params.msg);
-  logger.err(new Error('printing out an error'));
-  logger.err(new Error('printing out an error full'), true);  // <-- print the full Error object
-  return res.status(OK).json({
-    message: 'console_mode',
+```typescript
+import { JetLogger, LoggerModes } from 'jet-logger';
+
+const fileLogger = new JetLogger(LoggerModes.FILE, './logs/app.log', true, true);
+fileLogger.info('Writing to disk now!');
+```
+
+## Configuration
+
+You can configure Jet-Logger through environment variables (recommended for deployments) or via constructor arguments. All options are optional—unset values fall back to sensible defaults.
+
+| Environment variable         | Description                                                                 | Default              |
+| ---------------------------- | --------------------------------------------------------------------------- | -------------------- |
+| `JET_LOGGER_MODE`            | `'CONSOLE'`, `'FILE'`, `'CUSTOM'`, `'OFF'`                                   | `CONSOLE`            |
+| `JET_LOGGER_FILEPATH`        | File path used when mode is `FILE`                                          | `~/jet-logger.log`   |
+| `JET_LOGGER_FILEPATH_DATETIME` | Prefix the log file name with a timestamp (`TRUE`/`FALSE`)                | `TRUE`               |
+| `JET_LOGGER_TIMESTAMP`       | Show a timestamp next to each log line (`TRUE`/`FALSE`)                      | `TRUE`               |
+| `JET_LOGGER_FORMAT`          | `'LINE'` for plain text or `'JSON'` for structured logs                      | `LINE`               |
+
+```typescript
+// Apply settings before importing logger
+process.env.JET_LOGGER_MODE = 'FILE';
+process.env.JET_LOGGER_FILEPATH = './logs/server.log';
+
+import logger from 'jet-logger';
+logger.info('Logs will now be written to ./logs/server.log');
+```
+
+Each log method accepts an optional second parameter (`true`) to print full objects via Node's `util.inspect`, which is helpful when debugging nested data or stack traces.
+
+## API Surface
+
+- `info(content, fullPrint?)`
+- `imp(content, fullPrint?)`
+- `warn(content, fullPrint?)`
+- `err(content, fullPrint?)`
+- `LoggerModes` enum: `CONSOLE`, `FILE`, `CUSTOM`, `OFF`
+- `TCustomLogFn`: `(timestamp: Date, level: string, content: unknown) => void`
+
+## Custom Transports
+
+Integrate Jet-Logger with tools such as ElasticSearch, Splunk, DataDog, or any HTTP collector by providing your own transport callback:
+
+```typescript
+import { JetLogger, LoggerModes, TCustomLogFn } from 'jet-logger';
+
+const forwardToSplunk: TCustomLogFn = (timestamp, level, content) => {
+  splunkClient.emit({
+    timestamp,
+    level,
+    content,
   });
-});
-````
+};
 
+const remoteLogger = new JetLogger(LoggerModes.CUSTOM, '', true, true, undefined, forwardToSplunk);
+remoteLogger.imp('Sent to Splunk');
+```
 
-- The previous code-snippet will  show the following content when printed:
-````
+## Sample Output
+
+```
 [2020-10-11T04:50:59.339Z] INFO: hello jet-logger
 [2020-10-11T04:50:59.341Z] IMPORTANT: hello jet-logger
 [2020-10-11T04:50:59.341Z] WARNING: hello jet-logger
 [2020-10-11T04:50:59.342Z] ERROR: hello jet-logger
-[2020-10-11T04:50:59.372Z] ERROR: Error: Demo print full error object
-    at Object.<anonymous> (C:\Projects\jet-logger\sample-project\src\index.ts:21:12)
-    at Module._compile (internal/modules/cjs/loader.js:956:30)
-    at Module.m._compile (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\index.ts:536:23)
-    at Module._extensions..js (internal/modules/cjs/loader.js:973:10)
-    at Object.require.extensions.<computed> [as .ts] (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\index.ts:539:12)
-    at Module.load (internal/modules/cjs/loader.js:812:32)
-    at Function.Module._load (internal/modules/cjs/loader.js:724:14)
-    at Function.Module.runMain (internal/modules/cjs/loader.js:1025:10)
-    at main (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\bin.ts:212:14)
-    at Object.<anonymous> (C:\Users\seanp\AppData\Roaming\npm\node_modules\ts-node\src\bin.ts:470:3)
-````
+```
 
+## Links
 
-### Using a custom logger 
-For production you'll probably have some third party logging tool like ElasticSearch or Splunk. _logger_ exports a type `TCustomLogFn` that needs to implemented. If you implement this function and pass it to JetLogger and set the mode to `CUSTOM`, Logger will call whatever logic you created for it.
-
-
-````typescript
-// In the route file
-import { OK } from 'http-status-codes';
-import { Router, Request, Response } from 'express';
-import { JetLogger, TCustomLogFn } from 'jet-logger';
-import { thirdPartyLoggingApp } from 'thirdPartyLoggingApplicationLib';
-
-
-// Needs to be implemented
-const customSend: TCustomLogFn = (timestamp: Date, level: string, content: unknown) => {
-  thirdPartyLoggingApp.doStuff(...);
-}
-
-router.get('api/users', async (req: Request, res: Reponse) => {
-  const logger = new JetLogger(LoggerModes.CUSTOM, '', true, true, undefined, customSend);
-  logger.info(req.params.msg);
-  return res.status(OK).json({
-    message: 'console_mode',
-  });
-});
-````
+- [NPM package](https://www.npmjs.com/package/jet-logger)
+- [Issue tracker](https://github.com/seanpmaxwell/jet-logger/issues)
+- [License](https://github.com/seanpmaxwell/jet-logger/blob/master/LICENSE)
