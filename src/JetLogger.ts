@@ -1,25 +1,27 @@
+/* eslint-disable no-process-env */
 import util from 'util';
 import colors from 'colors';
 import fs from 'fs';
 
-
-// **** Variables **** //
+/******************************************************************************
+                                   Variables
+******************************************************************************/
 
 // Options for printing a log.
-export enum LoggerModes {
-  Console = 'CONSOLE',
-  File = 'FILE',
-  Custom = 'CUSTOM',
-  Off = 'OFF',
-}
+export const LoggerModes = {
+  Console: 'CONSOLE',
+  File: 'FILE',
+  Custom: 'CUSTOM',
+  Off: 'OFF',
+} as const;
 
 // Log formats
-export enum Formats {
-  Line = 'LINE',
-  Json = 'JSON',
-}
+export const Formats = {
+  Line: 'LINE',
+  Json: 'JSON',
+} as const;
 
-// Note colors here need be a color from 
+// Note colors here need be a color from
 // the colors library above.
 const Levels = {
   Info: {
@@ -37,55 +39,59 @@ const Levels = {
   Error: {
     Color: 'red',
     Prefix: 'ERROR',
-  }
+  },
 } as const;
 
 // Errors
 const Errors = {
-  CustomLogFn: 'Custom logger mode set to true, but no custom logger was ' + 
-    'provided.',
-  Mode: 'The correct logger mode was not specified: Must be "CUSTOM", ' +
-    '"FILE", "OFF", or "CONSOLE".'
+  CustomLogFn:
+    'Custom logger mode set to true, but no custom logger was ' + 'provided.',
+  Mode:
+    'The correct logger mode was not specified: Must be "CUSTOM", ' +
+    '"FILE", "OFF", or "CONSOLE".',
 } as const;
 
+/******************************************************************************
+                                  Types
+******************************************************************************/
 
-// **** Types **** //
+type TLoggerModes = (typeof LoggerModes)[keyof typeof LoggerModes];
+type TFormats = (typeof Formats)[keyof typeof Formats];
+type TLevelProp = (typeof Levels)[keyof typeof Levels];
 
-type TLevelProp = typeof Levels[keyof typeof Levels];
-
-export type TCustomLogFn = (
+export type TCustomLoggerFunction = (
   timestamp: Date,
-  prefix: string, 
+  prefix: string,
   content: unknown,
 ) => void;
 
-
-// **** Jet Logger Class **** //
+/******************************************************************************
+                                Classes
+******************************************************************************/
 
 export class JetLogger {
-
-  private mode = LoggerModes.Console;
+  private mode: TLoggerModes = LoggerModes.Console;
   private filePath = 'jet-logger.log';
   private timestamp = true;
-  private format = Formats.Line;
-  private customLogFn: TCustomLogFn = () => ({}); 
+  private format: TFormats = Formats.Line;
+  private customLogFn: TCustomLoggerFunction = () => ({});
 
   /**
    * Constructor
    */
   constructor(
-    mode?: LoggerModes,
+    mode?: TLoggerModes,
     filepath?: string,
     filepathDatetimeParam?: boolean,
     timestamp?: boolean,
-    format?: Formats,
-    customLogFn?: TCustomLogFn,
+    format?: TFormats,
+    customLogFn?: TCustomLoggerFunction,
   ) {
     // Setup the mode
     if (mode !== undefined) {
       this.mode = mode;
     } else if (!!process.env.JET_LOGGER_MODE) {
-      this.mode = process.env.JET_LOGGER_MODE.toUpperCase() as LoggerModes;
+      this.mode = process.env.JET_LOGGER_MODE.toUpperCase() as TLoggerModes;
     }
     // Filepath
     if (filepath !== undefined) {
@@ -106,13 +112,13 @@ export class JetLogger {
       this.timestamp = timestamp;
     } else if (!!process.env.JET_LOGGER_TIMESTAMP) {
       const envVar = process.env.JET_LOGGER_TIMESTAMP;
-      this.timestamp = (envVar.toUpperCase() === 'TRUE');
+      this.timestamp = envVar.toUpperCase() === 'TRUE';
     }
     // Format
     if (format !== undefined) {
       this.format = format;
     } else if (!!process.env.JET_LOGGER_FORMAT) {
-      this.format = process.env.JET_LOGGER_FORMAT.toUpperCase() as Formats;
+      this.format = process.env.JET_LOGGER_FORMAT.toUpperCase() as TFormats;
     }
     // Modify filepath if filepath datetime is true
     if (filePathDatetime) {
@@ -125,20 +131,23 @@ export class JetLogger {
   }
 
   /**
-   * Prepend the filename in the file path with a timestamp. 
+   * Prepend the filename in the file path with a timestamp.
    * i.e. '/home/jet-logger.log' => '/home/20220805T033709_jet-logger.log'
    */
   private addDatetimeToFileName(filePath: string): string {
-      // Get the date string
-      const dateStr = new Date().toISOString()
-      .split('-').join('')
-      .split(':').join('')
+    // Get the date string
+    const dateStr = new Date()
+      .toISOString()
+      .split('-')
+      .join('')
+      .split(':')
+      .join('')
       .slice(0, 15);
     // Setup new file name
     const filePathArr = filePath.split('/'),
       lastIdx = filePathArr.length - 1,
       fileName = filePathArr[lastIdx],
-      fileNameNew = (dateStr + '_' + fileName);
+      fileNameNew = dateStr + '_' + fileName;
     // Setup new file path
     filePathArr[lastIdx] = fileNameNew;
     return filePathArr.join('/');
@@ -207,12 +216,13 @@ export class JetLogger {
     }
     // Print Console
     if (this.mode === LoggerModes.Console) {
-      const colorFn = (colors as any)[level.Color];
+      const colorFn = colors[level.Color];
+      // eslint-disable-next-line no-console
       console.log(colorFn(content));
-    // Print File
+      // Print File
     } else if (this.mode === LoggerModes.File) {
       this.writeToFile(content + '\n');
-    // If reach this point, mode setting was bad
+      // If reach this point, mode setting was bad
     } else {
       throw Error(Errors.Mode);
     }
@@ -223,10 +233,10 @@ export class JetLogger {
    */
   private setupLineFormat(content: string, level: TLevelProp): string {
     // Format
-    content = (level.Prefix + ': ' + content);
+    content = level.Prefix + ': ' + content;
     if (this.timestamp) {
       const time = '[' + new Date().toISOString() + '] ';
-      return (time + content);
+      return time + content;
     }
     // Return
     return content;
@@ -252,15 +262,17 @@ export class JetLogger {
    * Write to file.
    */
   private writeToFile(content: string): void {
-    fs.appendFile(this.filePath, content, err => {
+    fs.appendFile(this.filePath, content, (err) => {
       if (!!err) {
-        console.error(err)
+        // eslint-disable-next-line no-console
+        console.error(err);
       }
-    })
+    });
   }
 }
 
-
-// **** Export default **** //
+/******************************************************************************
+                                  Export
+******************************************************************************/
 
 export default new JetLogger();
