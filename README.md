@@ -82,9 +82,9 @@ Each log method accepts an optional second parameter (`true`) to print full obje
 Integrate Jet-Logger with tools such as ElasticSearch, Splunk, DataDog, or any HTTP collector by providing your own transport callback:
 
 ```typescript
-import { JetLogger, LoggerModes, TCustomLogFn } from 'jet-logger';
+import { JetLogger, LoggerModes, TCustomLoggerFunction } from 'jet-logger';
 
-const forwardToSplunk: TCustomLogFn = (timestamp, level, content) => {
+const forwardToSplunk: TCustomLoggerFunction = (timestamp, level, content) => {
   splunkClient.emit({
     timestamp,
     level,
