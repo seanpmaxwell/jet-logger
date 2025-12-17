@@ -1,16 +1,15 @@
 # Created by .ignore support plugin (hsz.mobi)
 
 # ignore dev files
-lib/**/*.ts
-test/
-*.log
-README.MD
+src
+utils/src
+test
+.vscode
 
 # not needed npm stuff
 package-lock.json
 node_modules
-tsconfig.json
-tsconfig.build.json
-
-# include typings files
-!*.d.ts
+**/**/tsconfig.*
+eslint.config.ts
+README-git
+README-npm

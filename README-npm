@@ -1,0 +1,12 @@
+# Jet-Logger ✈️
+
+> Super fast, zero-dependency logging for Node.js and TypeScript projects.
+
+[![npm version](https://img.shields.io/npm/v/jet-logger?logo=npm&label=npm)](https://www.npmjs.com/package/jet-logger)
+[![npm downloads](https://img.shields.io/npm/dm/jet-logger?color=orange)](https://www.npmjs.com/package/jet-logger)
+[![License](https://img.shields.io/npm/l/jet-logger)](https://github.com/seanpmaxwell/jet-logger/blob/master/LICENSE)
+[![TypeScript definitions](https://img.shields.io/badge/TypeScript-ready-3178c6?logo=typescript&logoColor=white)](https://www.npmjs.com/package/jet-logger)
+
+Jet-Logger is an easy-to-configure logger that can print to the console, write to disk, or forward events to your own transport. Configure it entirely through environment variables or in code, and get colorized output, timestamps, and JSON log formatting out-of-the-box.
+
+Please refer to the official <a href="https://github.com/seanpmaxwell/jet-logger">github repo</a> for the most up-to-date documentation.
