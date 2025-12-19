@@ -75,7 +75,7 @@ Each log method accepts an optional second parameter (`true`) to print full obje
 - `warn(content, fullPrint?)`
 - `err(content, fullPrint?)`
 - `LoggerModes` enum: `CONSOLE`, `FILE`, `CUSTOM`, `OFF`
-- `TCustomLogFn`: `(timestamp: Date, level: string, content: unknown) => void`
+- `TCustomLoggerFunction`: `(timestamp: Date, level: string, content: unknown) => void`
 
 ## Custom Transports
 
