@@ -1,6 +1,6 @@
 # Jet-Logger ✈️
 
-> Super fast, zero-dependency logging for Node.js and TypeScript projects.
+> Super fast logging for Node.js and TypeScript with just one lightweight dependency.
 
 [![npm version](https://img.shields.io/npm/v/jet-logger?logo=npm&label=npm)](https://www.npmjs.com/package/jet-logger)
 [![npm downloads](https://img.shields.io/npm/dm/jet-logger?color=orange)](https://www.npmjs.com/package/jet-logger)
@@ -11,12 +11,12 @@ Jet-Logger is an easy-to-configure logger that can print to the console, write t
 
 ## Features
 
-- TypeScript first logging tool.
+- TypeScript-first logging tool
 - Console, file, custom, and silent modes with one-line configuration
 - Color-coded output for `info`, `imp`, `warn`, and `err` levels
 - Optional JSON formatting, timestamps, and automatic file names
 - Strongly typed API with enums and helper types for custom transports
-- Only a single dependency <a href="https://www.npmjs.com/package/colors">colors</a>
+- Only a single dependency: <a href="https://www.npmjs.com/package/colors">colors</a>
 
 ## Installation
 
@@ -31,11 +31,22 @@ yarn add jet-logger
 ```typescript
 import logger from 'jet-logger';
 
-logger.info('Server started');
-logger.imp('Ready for requests');
-logger.warn('Cache miss');
-logger.err(new Error('Unexpected error'));
+logger.info('hello jet-logger');
+logger.imp('hello jet-logger');
+logger.warn('hello jet-logger');
+logger.err('hello jet-logger');
 ```
+
+<pre>
+<span style="color: #2ecc71;">[2020-10-11T04:50:59.339Z] INFO: hello jet-logger</span>
+<span style="color: #e84393;">[2020-10-11T04:50:59.341Z] IMPORTANT: hello jet-logger</span>
+<span style="color: #f1c40f;">[2020-10-11T04:50:59.341Z] WARNING: hello jet-logger</span>
+<span style="color: #e74c3c;">[2020-10-11T04:50:59.342Z] ERROR: hello jet-logger</span>
+</pre>
+
+## Guide
+
+Each log method accepts an optional second parameter (`true`) to print full objects via Node's `util.inspect`, which is helpful when debugging nested data or stack traces.
 
 The default export is a pre-configured `jetLogger` object. For custom behavior, you can import the function directly:
 
@@ -44,14 +55,15 @@ import { jetLogger, JetLogger } from 'jet-logger';
 
 const fileLogger = jetLogger({
   mode: JetLogger.Modes.File,
-  filePath: './logs/app.log',
+  filepath: './logs/app.log',
   filepathDatetimeParam: true,
   timestamp: true,
+  format: JetLogger.Formats.Json,
 });
 fileLogger.info('Writing to disk now!');
 ```
 
-Need to ensure a logger-like object actually came from Jet-Logger (for example when wiring utilities together)? Use the built-in type guard:
+`JetLogger` is a helper export that exposes the available modes, formats, and the shared `instanceOf` utility. Need to ensure a logger-like object actually came from Jet-Logger (for example when wiring utilities together)? Use the built-in type guard:
 
 ```typescript
 import { JetLogger } from 'jet-logger';
@@ -65,12 +77,14 @@ if (JetLogger.instanceOf(maybeLogger)) {
 
 ## Configuration
 
-You can configure Jet-Logger through environment variables (recommended for deployments) or via constructor arguments. All options are optional-unset values which fall back to sensible defaults.
+You can configure Jet-Logger through environment variables (recommended for deployments) or via constructor arguments. All options you omit fall back to sensible defaults.
+
+### Environment Variables
 
 | Environment variable         | Description                                                                 | Default              |
 | ---------------------------- | --------------------------------------------------------------------------- | -------------------- |
 | `JET_LOGGER_MODE`            | `'CONSOLE'`, `'FILE'`, `'CUSTOM'`, `'OFF'`                                   | `CONSOLE`            |
-| `JET_LOGGER_FILEPATH`        | File path used when mode is `FILE`                                          | `~/jet-logger.log`   |
+| `JET_LOGGER_FILEPATH`        | File path used when mode is `FILE`                                          | `jet-logger.log`     |
 | `JET_LOGGER_FILEPATH_DATETIME` | Prefix the log file name with a timestamp (`TRUE`/`FALSE`)                | `TRUE`               |
 | `JET_LOGGER_TIMESTAMP`       | Show a timestamp next to each log line (`TRUE`/`FALSE`)                      | `TRUE`               |
 | `JET_LOGGER_FORMAT`          | `'LINE'` for plain text or `'JSON'` for structured logs                      | `LINE`               |
@@ -84,11 +98,21 @@ import logger from 'jet-logger';
 logger.info('Logs will now be written to ./logs/server.log');
 ```
 
-Each log method accepts an optional second parameter (`true`) to print full objects via Node's `util.inspect`, which is helpful when debugging nested data or stack traces.
+### Function options
+
+| Option                    | Type                     | Description                                                                 | Default            |
+| ------------------------- | ------------------------ | --------------------------------------------------------------------------- | ------------------ |
+| `mode`                    | `JetLogger.Modes`        | `Console`, `File`, `Custom`, or `Off`                                       | `Console`          |
+| `filepath`                | `string`                 | Destination file when using `File` mode                                     | `jet-logger.log`   |
+| `filepathDatetimeParam`   | `boolean`                | Prefix file name with a timestamp when writing to disk                      | `true`             |
+| `timestamp`               | `boolean`                | Include timestamps in each log entry                                        | `true`             |
+| `format`                  | `JetLogger.Formats`      | `Line` for plain text or `Json` for structured logs                         | `Line`             |
+| `customLogger`            | `CustomLogger`           | Callback used when `mode` is `Custom` (required for that mode)              | `() => ({})`       |
+
 
 ## Custom Transports
 
-Integrate JetLogger with tools such as ElasticSearch, Splunk, DataDog, or any HTTP collector by providing your own transport callback:
+Integrate Jet-Logger with tools such as Elasticsearch, Splunk, Datadog, or any HTTP collector by providing your own transport callback:
 
 ```typescript
 import { jetLogger, JetLogger, CustomLogger } from 'jet-logger';
@@ -107,13 +131,4 @@ const remoteLogger = jetLogger({
   customLogger: forwardToSplunk,
 );
 remoteLogger.imp('Sent to Splunk');
-```
-
-## Sample Output
-
-```
-[2020-10-11T04:50:59.339Z] INFO: hello jet-logger
-[2020-10-11T04:50:59.341Z] IMPORTANT: hello jet-logger
-[2020-10-11T04:50:59.341Z] WARNING: hello jet-logger
-[2020-10-11T04:50:59.342Z] ERROR: hello jet-logger
 ```
