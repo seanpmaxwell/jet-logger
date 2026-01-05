@@ -63,9 +63,6 @@ const Errors = {
 export const JetLogger = {
   Modes: LOGGER_MODES,
   Formats: FORMATS,
-  Levels: LEVELS,
-  Defaults: DEFAULTS,
-  Errors: Errors,
   instanceOf,
 } as const;
 

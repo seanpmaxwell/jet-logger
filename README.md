@@ -11,11 +11,12 @@ Jet-Logger is an easy-to-configure logger that can print to the console, write t
 
 ## Features
 
-- Zero-dependency logger written in TypeScript
+- TypeScript first logging tool.
 - Console, file, custom, and silent modes with one-line configuration
 - Color-coded output for `info`, `imp`, `warn`, and `err` levels
 - Optional JSON formatting, timestamps, and automatic file names
 - Strongly typed API with enums and helper types for custom transports
+- Only a single dependency <a href="https://www.npmjs.com/package/colors">colors</a>
 
 ## Installation
 
@@ -39,10 +40,10 @@ logger.err(new Error('Unexpected error'));
 The default export is a pre-configured `jetLogger` object. For custom behavior, you can import the function directly:
 
 ```typescript
-import { jetLogger, LoggerModes } from 'jet-logger';
+import { jetLogger, JetLogger } from 'jet-logger';
 
 const fileLogger = jetLogger({
-  mode: LoggerModes.FILE,
+  mode: JetLogger.Modes.File,
   filePath: './logs/app.log',
   filepathDatetimeParam: true,
   timestamp: true,
@@ -53,18 +54,18 @@ fileLogger.info('Writing to disk now!');
 Need to ensure a logger-like object actually came from Jet-Logger (for example when wiring utilities together)? Use the built-in type guard:
 
 ```typescript
-import { jetLogger } from 'jet-logger';
+import { JetLogger } from 'jet-logger';
 
 const maybeLogger = getSharedLogger();
 
-if (jetLogger.instanceOf(maybeLogger)) {
+if (JetLogger.instanceOf(maybeLogger)) {
   maybeLogger.info('Safe to use!');
 }
 ```
 
 ## Configuration
 
-You can configure Jet-Logger through environment variables (recommended for deployments) or via constructor arguments. All options are optional—unset values fall back to sensible defaults.
+You can configure Jet-Logger through environment variables (recommended for deployments) or via constructor arguments. All options are optional-unset values which fall back to sensible defaults.
 
 | Environment variable         | Description                                                                 | Default              |
 | ---------------------------- | --------------------------------------------------------------------------- | -------------------- |
@@ -85,22 +86,12 @@ logger.info('Logs will now be written to ./logs/server.log');
 
 Each log method accepts an optional second parameter (`true`) to print full objects via Node's `util.inspect`, which is helpful when debugging nested data or stack traces.
 
-## API Surface
-
-- `info(content, fullPrint?)`
-- `imp(content, fullPrint?)`
-- `warn(content, fullPrint?)`
-- `err(content, fullPrint?)`
-- `jetLogger.instanceOf(value)` → boolean type guard
-- `LoggerModes` enum: `CONSOLE`, `FILE`, `CUSTOM`, `OFF`
-- `CustomLogger`: `(timestamp: Date, level: string, content: unknown) => void`
-
 ## Custom Transports
 
-Integrate Jet-Logger with tools such as ElasticSearch, Splunk, DataDog, or any HTTP collector by providing your own transport callback:
+Integrate JetLogger with tools such as ElasticSearch, Splunk, DataDog, or any HTTP collector by providing your own transport callback:
 
 ```typescript
-import { jetLogger, LoggerModes, CustomLogger } from 'jet-logger';
+import { jetLogger, JetLogger, CustomLogger } from 'jet-logger';
 
 const forwardToSplunk: CustomLogger = (timestamp, level, content) => {
   splunkClient.emit({
@@ -111,7 +102,7 @@ const forwardToSplunk: CustomLogger = (timestamp, level, content) => {
 };
 
 const remoteLogger = jetLogger({
-  mode: LoggerModes.CUSTOM,
+  mode: JetLogger.Modes.Custom,
   timestamp: true,
   customLogger: forwardToSplunk,
 );
@@ -126,9 +117,3 @@ remoteLogger.imp('Sent to Splunk');
 [2020-10-11T04:50:59.341Z] WARNING: hello jet-logger
 [2020-10-11T04:50:59.342Z] ERROR: hello jet-logger
 ```
-
-## Links
-
-- [NPM package](https://www.npmjs.com/package/jet-logger)
-- [Issue tracker](https://github.com/seanpmaxwell/jet-logger/issues)
-- [License](https://github.com/seanpmaxwell/jet-logger/blob/master/LICENSE)
