@@ -1,6 +1,6 @@
 {
   "name": "jet-logger",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "A super quick, easy to setup logging tool for NodeJS/TypeScript.",
   "type": "module",
   "main": "./dist/cjs/index.js",
