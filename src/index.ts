@@ -1,7 +1,6 @@
 export {
-  LOGGER_MODES as LoggerModes,
-  FORMATS as Formats,
   type CustomLogger,
+  JetLogger,
   jetLogger,
   default,
 } from './jetLogger.js';

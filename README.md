@@ -36,13 +36,30 @@ logger.warn('Cache miss');
 logger.err(new Error('Unexpected error'));
 ```
 
-The default export is a pre-configured `JetLogger` instance. For custom behavior you can import the class directly:
+The default export is a pre-configured `jetLogger` object. For custom behavior, you can import the function directly:
 
 ```typescript
-import { JetLogger, LoggerModes } from 'jet-logger';
+import { jetLogger, LoggerModes } from 'jet-logger';
 
-const fileLogger = new JetLogger(LoggerModes.FILE, './logs/app.log', true, true);
+const fileLogger = jetLogger({
+  mode: LoggerModes.FILE,
+  filePath: './logs/app.log',
+  filepathDatetimeParam: true,
+  timestamp: true,
+});
 fileLogger.info('Writing to disk now!');
+```
+
+Need to ensure a logger-like object actually came from Jet-Logger (for example when wiring utilities together)? Use the built-in type guard:
+
+```typescript
+import { jetLogger } from 'jet-logger';
+
+const maybeLogger = getSharedLogger();
+
+if (jetLogger.instanceOf(maybeLogger)) {
+  maybeLogger.info('Safe to use!');
+}
 ```
 
 ## Configuration
@@ -74,6 +91,7 @@ Each log method accepts an optional second parameter (`true`) to print full obje
 - `imp(content, fullPrint?)`
 - `warn(content, fullPrint?)`
 - `err(content, fullPrint?)`
+- `jetLogger.instanceOf(value)` → boolean type guard
 - `LoggerModes` enum: `CONSOLE`, `FILE`, `CUSTOM`, `OFF`
 - `CustomLogger`: `(timestamp: Date, level: string, content: unknown) => void`
 
@@ -82,7 +100,7 @@ Each log method accepts an optional second parameter (`true`) to print full obje
 Integrate Jet-Logger with tools such as ElasticSearch, Splunk, DataDog, or any HTTP collector by providing your own transport callback:
 
 ```typescript
-import { JetLogger, LoggerModes, CustomLogger } from 'jet-logger';
+import { jetLogger, LoggerModes, CustomLogger } from 'jet-logger';
 
 const forwardToSplunk: CustomLogger = (timestamp, level, content) => {
   splunkClient.emit({
@@ -92,7 +110,11 @@ const forwardToSplunk: CustomLogger = (timestamp, level, content) => {
   });
 };
 
-const remoteLogger = new JetLogger(LoggerModes.CUSTOM, '', true, true, undefined, forwardToSplunk);
+const remoteLogger = jetLogger({
+  mode: LoggerModes.CUSTOM,
+  timestamp: true,
+  customLogger: forwardToSplunk,
+);
 remoteLogger.imp('Sent to Splunk');
 ```
 

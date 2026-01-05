@@ -1,15 +1,15 @@
 /* eslint-disable no-console */
 /* eslint-disable no-process-env */
-import util from 'util';
 import colors from 'colors';
 import fs from 'fs';
+import util from 'util';
 
 /******************************************************************************
                                  Constants
 ******************************************************************************/
 
 // Options for printing a log.
-export const LOGGER_MODES = {
+const LOGGER_MODES = {
   Console: 'CONSOLE',
   File: 'FILE',
   Custom: 'CUSTOM',
@@ -17,14 +17,14 @@ export const LOGGER_MODES = {
 } as const;
 
 // Log formats
-export const FORMATS = {
+const FORMATS = {
   Line: 'LINE',
   Json: 'JSON',
 } as const;
 
 // Note colors here need be a color from
 // the colors library above.
-const Levels = {
+const LEVELS = {
   Info: {
     Color: 'green',
     Prefix: 'INFO',
@@ -53,12 +53,23 @@ const DEFAULTS = {
 
 // Errors
 const Errors = {
-  CustomLogFn:
-    'Custom logger mode set to true, but no custom logger was ' + 'provided.',
+  CustomLogger:
+    'Custom logger mode set to true, but no custom logger was provided.',
   Mode:
-    'The correct logger mode was not specified: Must be "CUSTOM", ' +
-    '"FILE", "OFF", or "CONSOLE".',
+    'The correct logger mode was not specified: Must be "CUSTOM", "FILE", ' +
+    '"OFF", or "CONSOLE".',
 } as const;
+
+export const JetLogger = {
+  Modes: LOGGER_MODES,
+  Formats: FORMATS,
+  Levels: LEVELS,
+  Defaults: DEFAULTS,
+  Errors: Errors,
+  instanceOf,
+} as const;
+
+const kJetLogger = Symbol('k-jet-logger');
 
 /******************************************************************************
                                   Types
@@ -66,7 +77,7 @@ const Errors = {
 
 type LoggerModes = (typeof LOGGER_MODES)[keyof typeof LOGGER_MODES];
 type Formats = (typeof FORMATS)[keyof typeof FORMATS];
-type LevelProp = (typeof Levels)[keyof typeof Levels];
+type LevelProp = (typeof LEVELS)[keyof typeof LEVELS];
 type FormatterFunction = (content: string, level: LevelProp) => string;
 type LogFunction = (content: unknown, printFull?: boolean) => void;
 
@@ -82,11 +93,18 @@ interface Options {
   filepathDatetimeParam?: boolean;
   timestamp?: boolean;
   format?: Formats;
-  customLogFn?: CustomLogger;
+  customLogger?: CustomLogger;
+}
+
+interface JetLogger {
+  info: (content: unknown, print?: boolean) => void;
+  imp: (content: unknown, print?: boolean) => void;
+  warn: (content: unknown, print?: boolean) => void;
+  err: (content: unknown, print?: boolean) => void;
 }
 
 /******************************************************************************
-                                Classes
+                               Functions
 ******************************************************************************/
 
 /**
@@ -113,22 +131,24 @@ export function jetLogger(options?: Options) {
       imp: (_: unknown, __?: boolean) => ({}),
       warn: (_: unknown, __?: boolean) => ({}),
       err: (_: unknown, __?: boolean) => ({}),
+      [kJetLogger]: true,
     } as const;
   }
 
   // ** Custom Logger Function ** //
   if (mode === LOGGER_MODES.Custom) {
-    if (options?.customLogFn !== undefined) {
-      customLogFn = options.customLogFn;
+    if (options?.customLogger !== undefined) {
+      customLogFn = options.customLogger;
     }
     if (!customLogFn) {
-      throw Error(Errors.CustomLogFn);
+      throw Error(Errors.CustomLogger);
     }
     return {
-      info: setupPrintWithCustomLogger(Levels.Info, customLogFn),
-      imp: setupPrintWithCustomLogger(Levels.Important, customLogFn),
-      warn: setupPrintWithCustomLogger(Levels.Warning, customLogFn),
-      err: setupPrintWithCustomLogger(Levels.Error, customLogFn),
+      info: setupPrintWithCustomLogger(LEVELS.Info, customLogFn),
+      imp: setupPrintWithCustomLogger(LEVELS.Important, customLogFn),
+      warn: setupPrintWithCustomLogger(LEVELS.Warning, customLogFn),
+      err: setupPrintWithCustomLogger(LEVELS.Error, customLogFn),
+      [kJetLogger]: true,
     } as const;
   }
 
@@ -178,23 +198,23 @@ export function jetLogger(options?: Options) {
     }
     // Return
     return {
-      info: setupPrintToFile(Levels.Info, formatter, filePath),
-      imp: setupPrintToFile(Levels.Important, formatter, filePath),
-      warn: setupPrintToFile(Levels.Warning, formatter, filePath),
-      err: setupPrintToFile(Levels.Error, formatter, filePath),
+      info: setupPrintToFile(LEVELS.Info, formatter, filePath),
+      imp: setupPrintToFile(LEVELS.Important, formatter, filePath),
+      warn: setupPrintToFile(LEVELS.Warning, formatter, filePath),
+      err: setupPrintToFile(LEVELS.Error, formatter, filePath),
+      [kJetLogger]: true,
     } as const;
   }
 
   // Console (Default)
   return {
-    info: setupPrintToConsole(Levels.Info, formatter),
-    imp: setupPrintToConsole(Levels.Important, formatter),
-    warn: setupPrintToConsole(Levels.Warning, formatter),
-    err: setupPrintToConsole(Levels.Error, formatter),
+    info: setupPrintToConsole(LEVELS.Info, formatter),
+    imp: setupPrintToConsole(LEVELS.Important, formatter),
+    warn: setupPrintToConsole(LEVELS.Warning, formatter),
+    err: setupPrintToConsole(LEVELS.Error, formatter),
+    [kJetLogger]: true,
   } as const;
 }
-
-// **** Print Custom Functions **** //
 
 /**
  * Print a log with a custom logger function.
@@ -320,6 +340,16 @@ function addDatetimeToFileName(filePath: string): string {
   // Setup new file path
   filePathArr[lastIdx] = fileNameNew;
   return filePathArr.join('/');
+}
+
+/**
+ * Check if an object is an instance of jetLogger
+ */
+function instanceOf(arg: unknown): arg is JetLogger {
+  return (
+    typeof arg === 'object' &&
+    (arg as Record<symbol, unknown>)[kJetLogger] === true
+  );
 }
 
 /******************************************************************************
