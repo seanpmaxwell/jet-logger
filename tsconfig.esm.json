@@ -7,7 +7,9 @@
     "moduleResolution": "bundler",
     "outDir": "dist/esm",
     "declaration": false,
-    "noEmit": false
+    "noEmit": false,
+    "removeComments": true,
+    "pretty": false
   },
   "include": [
     "./src/**/*.ts"
