@@ -11,7 +11,7 @@ import {
   beforeEach,
   afterEach,
 } from 'vitest';
-import { JetLogger, LoggerModes, Formats } from '../src/JetLogger.js';
+import { JetLogger, LoggerModes, Formats } from '../src/jetLogger.js';
 
 const ENV_KEYS = [
   'JET_LOGGER_MODE',

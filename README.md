@@ -75,16 +75,16 @@ Each log method accepts an optional second parameter (`true`) to print full obje
 - `warn(content, fullPrint?)`
 - `err(content, fullPrint?)`
 - `LoggerModes` enum: `CONSOLE`, `FILE`, `CUSTOM`, `OFF`
-- `TCustomLogFn`: `(timestamp: Date, level: string, content: unknown) => void`
+- `CustomLogger`: `(timestamp: Date, level: string, content: unknown) => void`
 
 ## Custom Transports
 
 Integrate Jet-Logger with tools such as ElasticSearch, Splunk, DataDog, or any HTTP collector by providing your own transport callback:
 
 ```typescript
-import { JetLogger, LoggerModes, TCustomLogFn } from 'jet-logger';
+import { JetLogger, LoggerModes, CustomLogger } from 'jet-logger';
 
-const forwardToSplunk: TCustomLogFn = (timestamp, level, content) => {
+const forwardToSplunk: CustomLogger = (timestamp, level, content) => {
   splunkClient.emit({
     timestamp,
     level,

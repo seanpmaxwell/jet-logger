@@ -4,7 +4,7 @@ import colors from 'colors';
 import fs from 'fs';
 
 /******************************************************************************
-                                   Variables
+                                 Constants
 ******************************************************************************/
 
 // Options for printing a log.
@@ -59,7 +59,7 @@ type TLoggerModes = (typeof LoggerModes)[keyof typeof LoggerModes];
 type TFormats = (typeof Formats)[keyof typeof Formats];
 type TLevelProp = (typeof Levels)[keyof typeof Levels];
 
-export type TCustomLoggerFunction = (
+export type CustomLogger = (
   timestamp: Date,
   prefix: string,
   content: unknown,
@@ -74,7 +74,7 @@ export class JetLogger {
   private filePath = 'jet-logger.log';
   private timestamp = true;
   private format: TFormats = Formats.Line;
-  private customLogFn: TCustomLoggerFunction = () => ({});
+  private customLogFn: CustomLogger = () => ({});
 
   /**
    * Constructor
@@ -85,7 +85,7 @@ export class JetLogger {
     filepathDatetimeParam?: boolean,
     timestamp?: boolean,
     format?: TFormats,
-    customLogFn?: TCustomLoggerFunction,
+    customLogFn?: CustomLogger,
   ) {
     // Setup the mode
     if (mode !== undefined) {

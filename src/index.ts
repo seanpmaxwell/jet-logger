@@ -1,7 +1,7 @@
 export {
   LoggerModes,
   Formats,
-  type TCustomLoggerFunction,
+  type CustomLogger as TCustomLoggerFunction,
   JetLogger,
   default as default,
-} from './JetLogger.js';
+} from './jetLogger.js';
