@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable no-process-env */
 import util from 'util';
 import colors from 'colors';
@@ -8,7 +9,7 @@ import fs from 'fs';
 ******************************************************************************/
 
 // Options for printing a log.
-export const LoggerModes = {
+export const LOGGER_MODES = {
   Console: 'CONSOLE',
   File: 'FILE',
   Custom: 'CUSTOM',
@@ -16,7 +17,7 @@ export const LoggerModes = {
 } as const;
 
 // Log formats
-export const Formats = {
+export const FORMATS = {
   Line: 'LINE',
   Json: 'JSON',
 } as const;
@@ -42,6 +43,14 @@ const Levels = {
   },
 } as const;
 
+const DEFAULTS = {
+  mode: LOGGER_MODES.Console,
+  filePath: 'jet-logger.log',
+  timestamp: true,
+  format: FORMATS.Line,
+  customLogFn: () => ({}),
+} as const;
+
 // Errors
 const Errors = {
   CustomLogFn:
@@ -55,9 +64,11 @@ const Errors = {
                                   Types
 ******************************************************************************/
 
-type TLoggerModes = (typeof LoggerModes)[keyof typeof LoggerModes];
-type TFormats = (typeof Formats)[keyof typeof Formats];
-type TLevelProp = (typeof Levels)[keyof typeof Levels];
+type LoggerModes = (typeof LOGGER_MODES)[keyof typeof LOGGER_MODES];
+type Formats = (typeof FORMATS)[keyof typeof FORMATS];
+type LevelProp = (typeof Levels)[keyof typeof Levels];
+type FormatterFunction = (content: string, level: LevelProp) => string;
+type LogFunction = (content: unknown, printFull?: boolean) => void;
 
 export type CustomLogger = (
   timestamp: Date,
@@ -65,210 +76,217 @@ export type CustomLogger = (
   content: unknown,
 ) => void;
 
+interface Options {
+  mode?: LoggerModes;
+  filepath?: string;
+  filepathDatetimeParam?: boolean;
+  timestamp?: boolean;
+  format?: Formats;
+  customLogFn?: CustomLogger;
+}
+
 /******************************************************************************
                                 Classes
 ******************************************************************************/
 
-export class JetLogger {
-  private mode: TLoggerModes = LoggerModes.Console;
-  private filePath = 'jet-logger.log';
-  private timestamp = true;
-  private format: TFormats = Formats.Line;
-  private customLogFn: CustomLogger = () => ({});
+/**
+ * Default function
+ */
+export function jetLogger(options?: Options) {
+  let mode: LoggerModes = DEFAULTS.mode,
+    filePath: string = DEFAULTS.filePath,
+    timestamp: boolean = DEFAULTS.timestamp,
+    format: Formats = DEFAULTS.format,
+    customLogFn: CustomLogger = DEFAULTS.customLogFn;
 
-  /**
-   * Constructor
-   */
-  constructor(
-    mode?: TLoggerModes,
-    filepath?: string,
-    filepathDatetimeParam?: boolean,
-    timestamp?: boolean,
-    format?: TFormats,
-    customLogFn?: CustomLogger,
-  ) {
-    // Setup the mode
-    if (mode !== undefined) {
-      this.mode = mode;
-    } else if (!!process.env.JET_LOGGER_MODE) {
-      this.mode = process.env.JET_LOGGER_MODE.toUpperCase() as TLoggerModes;
+  // Setup the mode
+  if (options?.mode !== undefined) {
+    mode = options.mode;
+  } else if (!!process.env.JET_LOGGER_MODE) {
+    mode = process.env.JET_LOGGER_MODE.toUpperCase() as LoggerModes;
+  }
+
+  // ** Logger Mode Off ** //
+  if (mode === LOGGER_MODES.Off) {
+    return {
+      info: (_: unknown, __?: boolean) => ({}),
+      imp: (_: unknown, __?: boolean) => ({}),
+      warn: (_: unknown, __?: boolean) => ({}),
+      err: (_: unknown, __?: boolean) => ({}),
+    } as const;
+  }
+
+  // ** Custom Logger Function ** //
+  if (mode === LOGGER_MODES.Custom) {
+    if (options?.customLogFn !== undefined) {
+      customLogFn = options.customLogFn;
     }
-    // Filepath
-    if (filepath !== undefined) {
-      this.filePath = filepath;
-    } else if (!!process.env.JET_LOGGER_FILEPATH) {
-      this.filePath = process.env.JET_LOGGER_FILEPATH;
+    if (!customLogFn) {
+      throw Error(Errors.CustomLogFn);
     }
+    return {
+      info: printWithCustomLogger(Levels.Info, customLogFn),
+      imp: printWithCustomLogger(Levels.Important, customLogFn),
+      warn: printWithCustomLogger(Levels.Warning, customLogFn),
+      err: printWithCustomLogger(Levels.Error, customLogFn),
+    } as const;
+  }
+
+  // Filepath
+  if (options?.filepath !== undefined) {
+    filePath = options.filepath;
+  } else if (!!process.env.JET_LOGGER_FILEPATH) {
+    filePath = process.env.JET_LOGGER_FILEPATH;
+  }
+
+  // Timestamp
+  if (options?.timestamp !== undefined) {
+    timestamp = options.timestamp;
+  } else if (!!process.env.JET_LOGGER_TIMESTAMP) {
+    const envVar = process.env.JET_LOGGER_TIMESTAMP;
+    timestamp = envVar.toUpperCase() === 'TRUE';
+  }
+
+  // Format
+  if (options?.format !== undefined) {
+    format = options.format;
+  } else if (!!process.env.JET_LOGGER_FORMAT) {
+    format = process.env.JET_LOGGER_FORMAT.toUpperCase() as Formats;
+  }
+
+  // Print line or json
+  let formatter: FormatterFunction;
+  if (format === FORMATS.Line) {
+    formatter = setupLineFormat;
+  } else if (format === FORMATS.Json) {
+    formatter = setupJsonFormat;
+  }
+
+  // ** Print to File ** //
+  if (mode === LOGGER_MODES.File) {
     // FilePath dateTime
     let filePathDatetime = true;
-    if (filepathDatetimeParam !== undefined) {
-      filePathDatetime = filepathDatetimeParam;
+    if (options?.filepathDatetimeParam !== undefined) {
+      filePathDatetime = options.filepathDatetimeParam;
     } else if (!!process.env.JET_LOGGER_FILEPATH_DATETIME) {
       const envVar = process.env.JET_LOGGER_FILEPATH_DATETIME;
       filePathDatetime = envVar.toUpperCase() === 'TRUE';
     }
-    // Timestamp
-    if (timestamp !== undefined) {
-      this.timestamp = timestamp;
-    } else if (!!process.env.JET_LOGGER_TIMESTAMP) {
-      const envVar = process.env.JET_LOGGER_TIMESTAMP;
-      this.timestamp = envVar.toUpperCase() === 'TRUE';
-    }
-    // Format
-    if (format !== undefined) {
-      this.format = format;
-    } else if (!!process.env.JET_LOGGER_FORMAT) {
-      this.format = process.env.JET_LOGGER_FORMAT.toUpperCase() as TFormats;
-    }
+
     // Modify filepath if filepath datetime is true
     if (filePathDatetime) {
-      this.filePath = this.addDatetimeToFileName(this.filePath);
+      filePath = addDatetimeToFileName(filePath);
     }
-    // Custom Logger Function
-    if (customLogFn !== undefined) {
-      this.customLogFn = customLogFn;
-    }
+
+    // Return
+    return {
+      info: printToFile(Levels.Info, formatter, filePath),
+      imp: printToFile(Levels.Important, formatter, filePath),
+      warn: printToFile(Levels.Warning, formatter, filePath),
+      err: printToFile(Levels.Error, formatter, filePath),
+    } as const;
   }
 
-  /**
-   * Prepend the filename in the file path with a timestamp.
-   * i.e. '/home/jet-logger.log' => '/home/20220805T033709_jet-logger.log'
-   */
-  private addDatetimeToFileName(filePath: string): string {
-    // Get the date string
-    const dateStr = new Date()
-      .toISOString()
-      .split('-')
-      .join('')
-      .split(':')
-      .join('')
-      .slice(0, 15);
-    // Setup new file name
-    const filePathArr = filePath.split('/'),
-      lastIdx = filePathArr.length - 1,
-      fileName = filePathArr[lastIdx],
-      fileNameNew = dateStr + '_' + fileName;
-    // Setup new file path
-    filePathArr[lastIdx] = fileNameNew;
-    return filePathArr.join('/');
-  }
+  // Console (Default)
+  return {
+    info: printToConsole(Levels.Info, formatter),
+    imp: printToConsole(Levels.Important, formatter),
+    warn: printToConsole(Levels.Warning, formatter),
+    err: printToConsole(Levels.Error, formatter),
+  } as const;
+}
 
-  /**
-   * Print information.
-   */
-  public info(content: unknown, printFull?: boolean) {
-    this.printLog(content, !!printFull, Levels.Info);
-  }
+// **** Print Custom Functions **** //
 
-  /**
-   * Print important information.
-   */
-  public imp(content: unknown, printFull?: boolean) {
-    this.printLog(content, !!printFull, Levels.Important);
-  }
-
-  /**
-   * Print important information.
-   */
-  public warn(content: unknown, printFull?: boolean) {
-    this.printLog(content, !!printFull, Levels.Warning);
-  }
-
-  /**
-   * Print important information.
-   */
-  public err(content: unknown, printFull?: boolean) {
-    this.printLog(content, !!printFull, Levels.Error);
-  }
-
-  /**
-   * Print the log using the provided settings.
-   */
-  private printLog(
-    contentParam: unknown,
-    printFull: boolean,
-    level: TLevelProp,
-  ): void {
-    // Do nothing if turned off
-    if (this.mode === LoggerModes.Off) {
-      return;
-    }
-    // Print full
-    let content;
+/**
+ * Print a log with a custom logger function.
+ */
+function printWithCustomLogger(
+  level: LevelProp,
+  customLogFn: CustomLogger,
+): LogFunction {
+  return (content: unknown, printFull?: boolean) => {
+    let contentNew;
     if (printFull) {
-      content = util.inspect(contentParam);
+      contentNew = util.inspect(content);
     } else {
-      content = String(contentParam);
+      contentNew = String(content);
     }
-    // Fire the custom logger if that's the option
-    if (this.mode === LoggerModes.Custom) {
-      if (!!this.customLogFn) {
-        return this.customLogFn(new Date(), level.Prefix, content);
-      } else {
-        throw Error(Errors.CustomLogFn);
-      }
-    }
-    // Print line or json
-    if (this.format === Formats.Line) {
-      content = this.setupLineFormat(content, level);
-    } else if (this.format === Formats.Json) {
-      content = this.setupJsonFormat(content, level);
-    }
-    // Print Console
-    if (this.mode === LoggerModes.Console) {
-      const colorFn = colors[level.Color];
-      // eslint-disable-next-line no-console
-      console.log(colorFn(content));
-      // Print File
-    } else if (this.mode === LoggerModes.File) {
-      this.writeToFile(content + '\n');
-      // If reach this point, mode setting was bad
+    return customLogFn(new Date(), level.Prefix, contentNew);
+  };
+}
+
+/**
+ * Write to file.
+ */
+function printToFile(
+  level: LevelProp,
+  formatter: FormatterFunction,
+  filePath: string,
+): LogFunction {
+  return (content: unknown, printFull?: boolean) => {
+    let contentNew;
+    if (!!printFull) {
+      contentNew = util.inspect(content);
     } else {
-      throw Error(Errors.Mode);
+      contentNew = String(content);
     }
-  }
-
-  /**
-   * Setup line format.
-   */
-  private setupLineFormat(content: string, level: TLevelProp): string {
-    // Format
-    content = level.Prefix + ': ' + content;
-    if (this.timestamp) {
-      const time = '[' + new Date().toISOString() + '] ';
-      return time + content;
-    }
-    // Return
-    return content;
-  }
-
-  /**
-   * Setup json format.
-   */
-  private setupJsonFormat(content: string, level: TLevelProp): string {
-    // Format
-    const json: Record<string, unknown> = {
-      level: level.Prefix,
-      message: content,
-    };
-    if (this.timestamp) {
-      json.timestamp = new Date().toISOString();
-    }
-    // Return
-    return JSON.stringify(json);
-  }
-
-  /**
-   * Write to file.
-   */
-  private writeToFile(content: string): void {
-    fs.appendFile(this.filePath, content, (err) => {
+    contentNew = formatter(contentNew, level);
+    fs.appendFile(filePath, contentNew, (err) => {
       if (!!err) {
-        // eslint-disable-next-line no-console
         console.error(err);
       }
     });
+  };
+}
+
+/**
+ * Print a log to the console.
+ */
+function printToConsole(
+  level: LevelProp,
+  formatter: FormatterFunction,
+): LogFunction {
+  return (content: unknown, printFull?: boolean) => {
+    let contentNew;
+    if (!!printFull) {
+      contentNew = util.inspect(content);
+    } else {
+      contentNew = String(content);
+    }
+    const colorFn = colors[level.Color];
+    contentNew = formatter(contentNew, level);
+    console.log(colorFn(contentNew));
+  };
+}
+
+/**
+ * Setup line format.
+ */
+function setupLineFormat(content: string, level: LevelProp): string {
+  // pick up here, return different functions depending on whether timestamp
+  // is truthy so we don't have to check at JIT
+
+  content = level.Prefix + ': ' + content;
+  if (timestamp) {
+    const time = '[' + new Date().toISOString() + '] ';
+    return time + content;
   }
+  return content;
+}
+
+/**
+ * Setup json format.
+ */
+function setupJsonFormat(content: string, level: LevelProp): string {
+  const json: Record<string, unknown> = {
+    level: level.Prefix,
+    message: content,
+  };
+  if (timestamp) {
+    json.timestamp = new Date().toISOString();
+  }
+  return JSON.stringify(json);
 }
 
 /******************************************************************************

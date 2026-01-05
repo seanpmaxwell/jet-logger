@@ -11,7 +11,7 @@ import {
   beforeEach,
   afterEach,
 } from 'vitest';
-import { JetLogger, LoggerModes, Formats } from '../src/jetLogger.js';
+import { JetLogger, LOGGER_MODES, FORMATS } from '../src/jetLogger.js';
 
 const ENV_KEYS = [
   'JET_LOGGER_MODE',
@@ -74,11 +74,11 @@ describe('JetLogger', () => {
   it('logs to the console in line format when configured directly', () => {
     const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
     const logger = new JetLogger(
-      LoggerModes.Console,
+      LOGGER_MODES.Console,
       'jet.log',
       false,
       false,
-      Formats.Line,
+      FORMATS.Line,
     );
 
     logger.info('ready');
@@ -91,11 +91,11 @@ describe('JetLogger', () => {
     const inspectSpy = vi.spyOn(util, 'inspect').mockReturnValue('full-object');
     const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
     const logger = new JetLogger(
-      LoggerModes.Console,
+      LOGGER_MODES.Console,
       'jet.log',
       false,
       false,
-      Formats.Line,
+      FORMATS.Line,
     );
     const payload = { nested: { value: 42 } };
 
@@ -110,11 +110,11 @@ describe('JetLogger', () => {
     vi.setSystemTime(new Date('2023-12-31T10:20:30.000Z'));
     const appendSpy = noopAppendSpy();
     const logger = new JetLogger(
-      LoggerModes.File,
+      LOGGER_MODES.File,
       '/tmp/app.log',
       false,
       true,
-      Formats.Json,
+      FORMATS.Json,
     );
 
     logger.warn('structured payload');
@@ -131,7 +131,7 @@ describe('JetLogger', () => {
   it('reads file configuration from environment variables and prefixes datetime', () => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date('2024-02-02T03:04:05.000Z'));
-    process.env.JET_LOGGER_MODE = LoggerModes.File;
+    process.env.JET_LOGGER_MODE = LOGGER_MODES.File;
     process.env.JET_LOGGER_FILEPATH = 'logs/app.log';
     process.env.JET_LOGGER_FILEPATH_DATETIME = 'TRUE';
     process.env.JET_LOGGER_TIMESTAMP = 'FALSE';
@@ -150,11 +150,11 @@ describe('JetLogger', () => {
     vi.setSystemTime(new Date('2024-05-01T12:00:00.000Z'));
     const customFn = vi.fn();
     const logger = new JetLogger(
-      LoggerModes.Custom,
+      LOGGER_MODES.Custom,
       undefined,
       false,
       true,
-      Formats.Line,
+      FORMATS.Line,
       customFn,
     );
 
@@ -168,7 +168,7 @@ describe('JetLogger', () => {
   });
 
   it('respects the OFF mode when set via environment variables', () => {
-    process.env.JET_LOGGER_MODE = LoggerModes.Off;
+    process.env.JET_LOGGER_MODE = LOGGER_MODES.Off;
     const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
     const appendSpy = vi.spyOn(fs, 'appendFile');
     const logger = new JetLogger();
@@ -181,10 +181,10 @@ describe('JetLogger', () => {
   });
 
   it('serializes JSON without timestamps when disabled through env vars', () => {
-    process.env.JET_LOGGER_MODE = LoggerModes.File;
+    process.env.JET_LOGGER_MODE = LOGGER_MODES.File;
     process.env.JET_LOGGER_FILEPATH = '/tmp/env.jsonl';
     process.env.JET_LOGGER_FILEPATH_DATETIME = 'FALSE';
-    process.env.JET_LOGGER_FORMAT = Formats.Json;
+    process.env.JET_LOGGER_FORMAT = FORMATS.Json;
     process.env.JET_LOGGER_TIMESTAMP = 'FALSE';
     const appendSpy = noopAppendSpy();
     const logger = new JetLogger();
