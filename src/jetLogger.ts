@@ -154,12 +154,12 @@ export function jetLogger(options?: Options) {
     format = process.env.JET_LOGGER_FORMAT.toUpperCase() as Formats;
   }
 
-  // Print line or json
-  let formatter: FormatterFunction;
+  // Setup the formatter
+  let formatter: FormatterFunction = () => '';
   if (format === FORMATS.Line) {
-    formatter = setupLineFormat;
+    formatter = setupLineFormatter(timestamp);
   } else if (format === FORMATS.Json) {
-    formatter = setupJsonFormat;
+    formatter = setupJsonFormatter(timestamp);
   }
 
   // ** Print to File ** //
@@ -172,12 +172,10 @@ export function jetLogger(options?: Options) {
       const envVar = process.env.JET_LOGGER_FILEPATH_DATETIME;
       filePathDatetime = envVar.toUpperCase() === 'TRUE';
     }
-
     // Modify filepath if filepath datetime is true
     if (filePathDatetime) {
       filePath = addDatetimeToFileName(filePath);
     }
-
     // Return
     return {
       info: printToFile(Levels.Info, formatter, filePath),
@@ -214,6 +212,47 @@ function printWithCustomLogger(
     }
     return customLogFn(new Date(), level.Prefix, contentNew);
   };
+}
+
+/**
+ * Setup line format.
+ */
+function setupLineFormatter(timestamp: boolean): FormatterFunction {
+  if (timestamp) {
+    return (content: string, level: LevelProp) => {
+      const contentNew = level.Prefix + ': ' + content,
+        time = '[' + new Date().toISOString() + '] ';
+      return time + contentNew;
+    };
+  } else {
+    return (content: string, level: LevelProp) => {
+      return level.Prefix + ': ' + content;
+    };
+  }
+}
+
+/**
+ * Setup json format.
+ */
+function setupJsonFormatter(timestamp: boolean): FormatterFunction {
+  if (timestamp) {
+    return (content: string, level: LevelProp) => {
+      const json: Record<string, unknown> = {
+        level: level.Prefix,
+        message: content,
+      };
+      json.timestamp = new Date().toISOString();
+      return JSON.stringify(json);
+    };
+  } else {
+    return (content: string, level: LevelProp) => {
+      const json: Record<string, unknown> = {
+        level: level.Prefix,
+        message: content,
+      };
+      return JSON.stringify(json);
+    };
+  }
 }
 
 /**
@@ -261,36 +300,30 @@ function printToConsole(
 }
 
 /**
- * Setup line format.
+ * Prepend the filename in the file path with a timestamp.
+ * i.e. '/home/jet-logger.log' => '/home/20220805T033709_jet-logger.log'
  */
-function setupLineFormat(content: string, level: LevelProp): string {
-  // pick up here, return different functions depending on whether timestamp
-  // is truthy so we don't have to check at JIT
-
-  content = level.Prefix + ': ' + content;
-  if (timestamp) {
-    const time = '[' + new Date().toISOString() + '] ';
-    return time + content;
-  }
-  return content;
-}
-
-/**
- * Setup json format.
- */
-function setupJsonFormat(content: string, level: LevelProp): string {
-  const json: Record<string, unknown> = {
-    level: level.Prefix,
-    message: content,
-  };
-  if (timestamp) {
-    json.timestamp = new Date().toISOString();
-  }
-  return JSON.stringify(json);
+function addDatetimeToFileName(filePath: string): string {
+  // Get the date string
+  const dateStr = new Date()
+    .toISOString()
+    .split('-')
+    .join('')
+    .split(':')
+    .join('')
+    .slice(0, 15);
+  // Setup new file name
+  const filePathArr = filePath.split('/'),
+    lastIdx = filePathArr.length - 1,
+    fileName = filePathArr[lastIdx],
+    fileNameNew = dateStr + '_' + fileName;
+  // Setup new file path
+  filePathArr[lastIdx] = fileNameNew;
+  return filePathArr.join('/');
 }
 
 /******************************************************************************
                                   Export
 ******************************************************************************/
 
-export default new JetLogger();
+export default jetLogger();
