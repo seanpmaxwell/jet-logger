@@ -125,10 +125,10 @@ export function jetLogger(options?: Options) {
       throw Error(Errors.CustomLogFn);
     }
     return {
-      info: printWithCustomLogger(Levels.Info, customLogFn),
-      imp: printWithCustomLogger(Levels.Important, customLogFn),
-      warn: printWithCustomLogger(Levels.Warning, customLogFn),
-      err: printWithCustomLogger(Levels.Error, customLogFn),
+      info: setupPrintWithCustomLogger(Levels.Info, customLogFn),
+      imp: setupPrintWithCustomLogger(Levels.Important, customLogFn),
+      warn: setupPrintWithCustomLogger(Levels.Warning, customLogFn),
+      err: setupPrintWithCustomLogger(Levels.Error, customLogFn),
     } as const;
   }
 
@@ -178,19 +178,19 @@ export function jetLogger(options?: Options) {
     }
     // Return
     return {
-      info: printToFile(Levels.Info, formatter, filePath),
-      imp: printToFile(Levels.Important, formatter, filePath),
-      warn: printToFile(Levels.Warning, formatter, filePath),
-      err: printToFile(Levels.Error, formatter, filePath),
+      info: setupPrintToFile(Levels.Info, formatter, filePath),
+      imp: setupPrintToFile(Levels.Important, formatter, filePath),
+      warn: setupPrintToFile(Levels.Warning, formatter, filePath),
+      err: setupPrintToFile(Levels.Error, formatter, filePath),
     } as const;
   }
 
   // Console (Default)
   return {
-    info: printToConsole(Levels.Info, formatter),
-    imp: printToConsole(Levels.Important, formatter),
-    warn: printToConsole(Levels.Warning, formatter),
-    err: printToConsole(Levels.Error, formatter),
+    info: setupPrintToConsole(Levels.Info, formatter),
+    imp: setupPrintToConsole(Levels.Important, formatter),
+    warn: setupPrintToConsole(Levels.Warning, formatter),
+    err: setupPrintToConsole(Levels.Error, formatter),
   } as const;
 }
 
@@ -199,7 +199,7 @@ export function jetLogger(options?: Options) {
 /**
  * Print a log with a custom logger function.
  */
-function printWithCustomLogger(
+function setupPrintWithCustomLogger(
   level: LevelProp,
   customLogFn: CustomLogger,
 ): LogFunction {
@@ -258,7 +258,7 @@ function setupJsonFormatter(timestamp: boolean): FormatterFunction {
 /**
  * Write to file.
  */
-function printToFile(
+function setupPrintToFile(
   level: LevelProp,
   formatter: FormatterFunction,
   filePath: string,
@@ -282,7 +282,7 @@ function printToFile(
 /**
  * Print a log to the console.
  */
-function printToConsole(
+function setupPrintToConsole(
   level: LevelProp,
   formatter: FormatterFunction,
 ): LogFunction {
