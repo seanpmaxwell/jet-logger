@@ -194,30 +194,4 @@ describe('JetLogger', () => {
       message: 'no timestamp please',
     });
   });
-
-  describe('instanceOf', () => {
-    it('detects loggers created by the factory regardless of mode', () => {
-      const defaultLogger = jetLogger();
-      const customLogger = jetLogger({
-        mode: JetLogger.Modes.Custom,
-        customLogger: vi.fn(),
-      });
-
-      expect(JetLogger.instanceOf(defaultLogger)).toBe(true);
-      expect(JetLogger.instanceOf(customLogger)).toBe(true);
-    });
-
-    it('rejects objects lacking the internal marker symbol', () => {
-      const lookalike = {
-        info: () => {},
-        imp: () => {},
-        warn: () => {},
-        err: () => {},
-      };
-
-      expect(JetLogger.instanceOf(lookalike)).toBe(false);
-      expect(JetLogger.instanceOf(undefined)).toBe(false);
-      expect(JetLogger.instanceOf('')).toBe(false);
-    });
-  });
 });

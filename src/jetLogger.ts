@@ -63,10 +63,7 @@ const Errors = {
 export const JetLogger = {
   Modes: LOGGER_MODES,
   Formats: FORMATS,
-  instanceOf,
 } as const;
-
-const kJetLogger = Symbol('k-jet-logger');
 
 /******************************************************************************
                                   Types
@@ -128,7 +125,6 @@ export function jetLogger(options?: Options) {
       imp: (_: unknown, __?: boolean) => ({}),
       warn: (_: unknown, __?: boolean) => ({}),
       err: (_: unknown, __?: boolean) => ({}),
-      [kJetLogger]: true,
     } as const;
   }
 
@@ -145,7 +141,6 @@ export function jetLogger(options?: Options) {
       imp: setupPrintWithCustomLogger(LEVELS.Important, customLogFn),
       warn: setupPrintWithCustomLogger(LEVELS.Warning, customLogFn),
       err: setupPrintWithCustomLogger(LEVELS.Error, customLogFn),
-      [kJetLogger]: true,
     } as const;
   }
 
@@ -199,7 +194,6 @@ export function jetLogger(options?: Options) {
       imp: setupPrintToFile(LEVELS.Important, formatter, filePath),
       warn: setupPrintToFile(LEVELS.Warning, formatter, filePath),
       err: setupPrintToFile(LEVELS.Error, formatter, filePath),
-      [kJetLogger]: true,
     } as const;
   }
 
@@ -209,7 +203,6 @@ export function jetLogger(options?: Options) {
     imp: setupPrintToConsole(LEVELS.Important, formatter),
     warn: setupPrintToConsole(LEVELS.Warning, formatter),
     err: setupPrintToConsole(LEVELS.Error, formatter),
-    [kJetLogger]: true,
   } as const;
 }
 
@@ -337,16 +330,6 @@ function addDatetimeToFileName(filePath: string): string {
   // Setup new file path
   filePathArr[lastIdx] = fileNameNew;
   return filePathArr.join('/');
-}
-
-/**
- * Check if an object is an instance of jetLogger
- */
-function instanceOf(arg: unknown): arg is JetLogger {
-  return (
-    typeof arg === 'object' &&
-    (arg as Record<symbol, unknown>)[kJetLogger] === true
-  );
 }
 
 /******************************************************************************

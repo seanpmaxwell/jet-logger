@@ -88,10 +88,3 @@ logger4.err(new Error('Demo print full error object'), true);
 process.env.JET_LOGGER_MODE = 'OFF';
 const logger5 = jetLogger();
 logger5.err('string');
-
-// Check instance
-process.env.JET_LOGGER_MODE = 'CONSOLE';
-const logger6 = jetLogger();
-logger.info(
-  'logger6 instanceOf jetLogger is: ' + JetLogger.instanceOf(logger6),
-);

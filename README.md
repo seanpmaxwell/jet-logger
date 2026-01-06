@@ -63,17 +63,8 @@ const fileLogger = jetLogger({
 fileLogger.info('Writing to disk now!');
 ```
 
-`JetLogger` is a helper export that exposes the available modes, formats, and the shared `instanceOf` utility. Need to ensure a logger-like object actually came from Jet-Logger (for example when wiring utilities together)? Use the built-in type guard:
+> `JetLogger` is a helper export that exposes the available modes and formats.
 
-```typescript
-import { JetLogger } from 'jet-logger';
-
-const maybeLogger = getSharedLogger();
-
-if (JetLogger.instanceOf(maybeLogger)) {
-  maybeLogger.info('Safe to use!');
-}
-```
 
 ## Configuration
 
