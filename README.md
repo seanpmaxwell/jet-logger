@@ -37,12 +37,12 @@ logger.warn('hello jet-logger');
 logger.err('hello jet-logger');
 ```
 
-<pre>
-<span style="color: #2ecc71;">[2020-10-11T04:50:59.339Z] INFO: hello jet-logger</span>
-<span style="color: #e84393;">[2020-10-11T04:50:59.341Z] IMPORTANT: hello jet-logger</span>
-<span style="color: #f1c40f;">[2020-10-11T04:50:59.341Z] WARNING: hello jet-logger</span>
-<span style="color: #e74c3c;">[2020-10-11T04:50:59.342Z] ERROR: hello jet-logger</span>
-</pre>
+```markdown
+🟢 INFO      [2020-10-11T04:50:59.339Z] INFO: hello jet-logger
+🟣 IMPORTANT [2020-10-11T04:50:59.341Z] IMPORTANT: hello jet-logger
+🟡 WARNING   [2020-10-11T04:50:59.341Z] WARNING: hello jet-logger
+🔴 ERROR     [2020-10-11T04:50:59.342Z] ERROR: hello jet-logger
+```
 
 ## Guide
 
