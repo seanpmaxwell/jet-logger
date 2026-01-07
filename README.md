@@ -37,12 +37,15 @@ logger.warn('hello jet-logger');
 logger.err('hello jet-logger');
 ```
 
+The above prints out:
 ```markdown
 🟢 INFO      [2020-10-11T04:50:59.339Z] INFO: hello jet-logger
 🟣 IMPORTANT [2020-10-11T04:50:59.341Z] IMPORTANT: hello jet-logger
 🟡 WARNING   [2020-10-11T04:50:59.341Z] WARNING: hello jet-logger
 🔴 ERROR     [2020-10-11T04:50:59.342Z] ERROR: hello jet-logger
 ```
+
+> Quick Note: I used emojis to show the colors cause github strips out inline styling. 
 
 ## Guide
 
