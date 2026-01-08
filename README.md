@@ -17,6 +17,7 @@ Jet-Logger is an easy-to-configure logger that can print to the console, write t
 - Optional JSON formatting, timestamps, and automatic file names
 - Strongly typed API with enums and helper types for custom transports
 - Only a single dependency: <a href="https://www.npmjs.com/package/colors">colors</a>
+<br/>
 
 ## Installation
 
@@ -25,6 +26,7 @@ npm install jet-logger
 # or
 yarn add jet-logger
 ```
+<br/>
 
 ## Quick Start
 
@@ -46,6 +48,7 @@ The above prints out:
 ```
 
 > Quick Note: I used emojis to show the colors cause github strips out inline styling. 
+<br/>
 
 ## Guide
 
@@ -67,7 +70,7 @@ fileLogger.info('Writing to disk now!');
 ```
 
 > `JetLogger` is a helper export that exposes the available modes and formats.
-
+<br/>
 
 ## Configuration
 
@@ -102,7 +105,7 @@ logger.info('Logs will now be written to ./logs/server.log');
 | `timestamp`               | `boolean`                | Include timestamps in each log entry                                        | `true`             |
 | `format`                  | `JetLogger.Formats`      | `Line` for plain text or `Json` for structured logs                         | `Line`             |
 | `customLogger`            | `CustomLogger`           | Callback used when `mode` is `Custom` (required for that mode)              | `() => ({})`       |
-
+<br/>
 
 ## Custom Transports
 
