@@ -10,7 +10,8 @@
 Jet-Logger is an easy-to-configure logger that can print to the console, write to disk, or forward events to your own transport. Configure it entirely through environment variables or in code, and get colorized output, timestamps, and JSON log formatting out-of-the-box.
 <br/><br/>
 
-## Features
+
+## Features ✨
 
 - TypeScript-first logging tool
 - Console, file, custom, and silent modes with one-line configuration
@@ -20,7 +21,8 @@ Jet-Logger is an easy-to-configure logger that can print to the console, write t
 - Only a single dependency: <a href="https://www.npmjs.com/package/colors">colors</a>
 <br/>
 
-## Installation
+
+## Installation 📦
 
 ```bash
 npm install jet-logger
@@ -29,7 +31,8 @@ yarn add jet-logger
 ```
 <br/>
 
-## Quick Start
+
+## Quick Start ⚡
 
 ```typescript
 import logger from 'jet-logger';
@@ -51,7 +54,8 @@ The above prints out:
 > Quick Note: I used emojis to show the colors cause github strips out inline styling. 
 <br/>
 
-## Guide
+
+## Guide 📘
 
 Each log method accepts an optional second parameter (`true`) to print full objects via Node's `util.inspect`, which is helpful when debugging nested data or stack traces.
 
@@ -73,7 +77,8 @@ fileLogger.info('Writing to disk now!');
 > `JetLogger` is a helper export that exposes the available modes and formats.
 <br/>
 
-## Configuration
+
+## Configuration ⚙️
 
 You can configure Jet-Logger through environment variables (recommended for deployments) or via constructor arguments. All options you omit fall back to sensible defaults.
 
@@ -108,7 +113,8 @@ logger.info('Logs will now be written to ./logs/server.log');
 | `customLogger`            | `CustomLogger`           | Callback used when `mode` is `Custom` (required for that mode)              | `() => ({})`       |
 <br/>
 
-## Custom Transports
+
+## Custom Transports 🚚 
 
 Integrate Jet-Logger with tools such as Elasticsearch, Splunk, Datadog, or any HTTP collector by providing your own transport callback:
 
