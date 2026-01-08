@@ -8,7 +8,7 @@
 [![TypeScript definitions](https://img.shields.io/badge/TypeScript-ready-3178c6?logo=typescript&logoColor=white)](https://www.npmjs.com/package/jet-logger)
 
 Jet-Logger is an easy-to-configure logger that can print to the console, write to disk, or forward events to your own transport. Configure it entirely through environment variables or in code, and get colorized output, timestamps, and JSON log formatting out-of-the-box.
-<br/>
+<br/><br/>
 
 ## Features
 
