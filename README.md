@@ -17,7 +17,6 @@ Jet-Logger is an easy-to-configure logger that can print to the console, write t
 - Optional JSON formatting, timestamps, and automatic file names
 - Strongly typed API with enums and helper types for custom transports
 - Only a single dependency: <a href="https://www.npmjs.com/package/colors">colors</a>
-<br/>
 
 ## Installation
 
