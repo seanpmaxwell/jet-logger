@@ -13,14 +13,14 @@ logger.err(new Error('Demo print full error object'), true);
 console.log('\n');
 
 // Test out logger instance, file
-const loggerFile = jetLogger({ mode: JetLogger.Modes.File });
+const loggerFile = jetLogger({ mode: JetLogger.Modes.FILE });
 loggerFile.info('hello jet-logger');
 loggerFile.imp('hello jet-logger');
 loggerFile.warn('hello jet-logger');
-loggerFile.err('hello jet-logger \n');
+loggerFile.err('hello jet-logger');
 
 // Test out logger instance, off
-process.env.JET_LOGGER_MODE = JetLogger.Modes.File;
+process.env.JET_LOGGER_MODE = JetLogger.Modes.OFF;
 const loggerOff = jetLogger();
 loggerOff.info("This line shouldn't print \n");
 
@@ -37,7 +37,7 @@ const sendLog: CustomLogger = (
 
 // Basic logging
 const logger1 = jetLogger({
-  mode: JetLogger.Modes.Custom,
+  mode: JetLogger.Modes.CUSTOM,
   filepath: 'jet-logger-alt2.log',
   filepathDatetimeParam: true,
   timestamp: true,
@@ -50,7 +50,7 @@ logger1.err('hello jet-logger \n');
 
 // Alternate File Name
 const logger2 = jetLogger({
-  mode: JetLogger.Modes.File,
+  mode: JetLogger.Modes.FILE,
   filepath: 'jet-logger-alt.log',
   filepathDatetimeParam: false,
   timestamp: false,
@@ -62,7 +62,7 @@ logger2.err('hello jet-logger');
 logger2.err(new Error('Demo print full error object'), true);
 
 // Test env variables to file
-process.env.JET_LOGGER_MODE = JetLogger.Modes.File;
+process.env.JET_LOGGER_MODE = JetLogger.Modes.FILE;
 process.env.JET_LOGGER_FILEPATH = 'jet-logger-alt2.log';
 process.env.JET_LOGGER_TIMESTAMP = 'true';
 const logger3 = jetLogger();
@@ -73,10 +73,10 @@ logger3.err('hello jet-logger');
 logger3.err(new Error('Demo print full error object'), true);
 
 // Test json format to file
-process.env.JET_LOGGER_MODE = JetLogger.Modes.File;
+process.env.JET_LOGGER_MODE = JetLogger.Modes.FILE;
 process.env.JET_LOGGER_FILEPATH = 'jet-logger-json.log';
 process.env.JET_LOGGER_TIMESTAMP = 'true';
-process.env.JET_LOGGER_FORMAT = JetLogger.Formats.Json;
+process.env.JET_LOGGER_FORMAT = JetLogger.Formats.JSON;
 const logger4 = jetLogger();
 logger4.info('hello jet-logger');
 logger4.imp('hello jet-logger');

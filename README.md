@@ -65,11 +65,11 @@ The default export is a pre-configured `jetLogger` object. For custom behavior, 
 import { jetLogger, JetLogger } from 'jet-logger';
 
 const fileLogger = jetLogger({
-  mode: JetLogger.Modes.File,
+  mode: JetLogger.Modes.FILE,
   filepath: './logs/app.log',
   filepathDatetimeParam: true,
   timestamp: true,
-  format: JetLogger.Formats.Json,
+  format: JetLogger.Formats.JSON,
 });
 fileLogger.info('Writing to disk now!');
 ```
@@ -84,17 +84,19 @@ You can configure Jet-Logger through environment variables (recommended for depl
 
 ### Environment Variables
 
+> Note: case does not matter
+
 | Environment variable         | Description                                                                 | Default              |
 | ---------------------------- | --------------------------------------------------------------------------- | -------------------- |
-| `JET_LOGGER_MODE`            | `'CONSOLE'`, `'FILE'`, `'CUSTOM'`, `'OFF'`                                   | `CONSOLE`            |
-| `JET_LOGGER_FILEPATH`        | File path used when mode is `FILE`                                          | `jet-logger.log`     |
-| `JET_LOGGER_FILEPATH_DATETIME` | Prefix the log file name with a timestamp (`TRUE`/`FALSE`)                | `TRUE`               |
-| `JET_LOGGER_TIMESTAMP`       | Show a timestamp next to each log line (`TRUE`/`FALSE`)                      | `TRUE`               |
-| `JET_LOGGER_FORMAT`          | `'LINE'` for plain text or `'JSON'` for structured logs                      | `LINE`               |
+| `JET_LOGGER_MODE`            | `'console'`, `fFile'`, `'custom'`, `off'`                                   | `console`            |
+| `JET_LOGGER_FILEPATH`        | File path used when mode is `file`                                          | `jet-logger.log`     |
+| `JET_LOGGER_FILEPATH_DATETIME` | Prefix the log file name with a timestamp (`true`/`false`)                | `true`               |
+| `JET_LOGGER_TIMESTAMP`       | Show a timestamp next to each log line (`true`/`false`)                      | `true`               |
+| `JET_LOGGER_FORMAT`          | `'line'` for plain text or `'json'` for structured logs                      | `line`               |
 
 ```typescript
 // Apply settings before importing logger
-process.env.JET_LOGGER_MODE = 'FILE';
+process.env.JET_LOGGER_MODE = 'file';
 process.env.JET_LOGGER_FILEPATH = './logs/server.log';
 
 import logger from 'jet-logger';
@@ -103,14 +105,14 @@ logger.info('Logs will now be written to ./logs/server.log');
 
 ### Function options
 
-| Option                    | Type                     | Description                                                                 | Default            |
-| ------------------------- | ------------------------ | --------------------------------------------------------------------------- | ------------------ |
-| `mode`                    | `JetLogger.Modes`        | `Console`, `File`, `Custom`, or `Off`                                       | `Console`          |
-| `filepath`                | `string`                 | Destination file when using `File` mode                                     | `jet-logger.log`   |
-| `filepathDatetimeParam`   | `boolean`                | Prefix file name with a timestamp when writing to disk                      | `true`             |
-| `timestamp`               | `boolean`                | Include timestamps in each log entry                                        | `true`             |
-| `format`                  | `JetLogger.Formats`      | `Line` for plain text or `Json` for structured logs                         | `Line`             |
-| `customLogger`            | `CustomLogger`           | Callback used when `mode` is `Custom` (required for that mode)              | `() => ({})`       |
+| Option                    | Type                                   | Description                                                                 | Default            |
+| ------------------------- | -------------------------------------- | --------------------------------------------------------------------------- | ------------------ |
+| `mode`                    | `console`, `file`, `custom`, or `off`  | You can also access this values with `Jetlogger.Modes`                      | `console`          |
+| `filepath`                | `string`                               | Destination file when using `File` mode                                     | `jet-logger.log`   |
+| `filepathDatetimeParam`   | `boolean`                              | Prefix file name with a timestamp when writing to disk                      | `true`             |
+| `timestamp`               | `boolean`                              | Include timestamps in each log entry                                        | `true`             |
+| `format`                  | `line` or `json`                       | You can also access this values with `Jetlogger.Formats`                    | `line`             |
+| `customLogger`            | `CustomLogger`                         | Callback used when `mode` is `Custom` (required for that mode)              | `() => ({})`       |
 <br/>
 
 
@@ -118,7 +120,7 @@ logger.info('Logs will now be written to ./logs/server.log');
 
 Integrate Jet-Logger with tools such as Elasticsearch, Splunk, Datadog, or any HTTP collector by providing your own transport callback:
 
-```typescript
+```ts
 import { jetLogger, JetLogger, CustomLogger } from 'jet-logger';
 
 const forwardToSplunk: CustomLogger = (timestamp, level, content) => {
@@ -130,7 +132,7 @@ const forwardToSplunk: CustomLogger = (timestamp, level, content) => {
 };
 
 const remoteLogger = jetLogger({
-  mode: JetLogger.Modes.Custom,
+  mode: JetLogger.Modes.CUSTOM,
   timestamp: true,
   customLogger: forwardToSplunk,
 );
