@@ -138,3 +138,9 @@ const remoteLogger = jetLogger({
 );
 remoteLogger.imp('Sent to Splunk');
 ```
+
+<br/><b>***</b><br/>
+
+## 📄 License 
+
+MIT © [seanpmaxwell1](LICENSE)
