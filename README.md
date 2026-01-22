@@ -59,7 +59,7 @@ The above prints out:
 
 Each log method accepts an optional second parameter (`true`) to print full objects via Node's `util.inspect`, which is helpful when debugging nested data or stack traces.
 
-The default export is a pre-configured `jetLogger` object. For custom behavior, you can import the function directly:
+The default export is a pre-configured `jetLogger` object. For custom behavior, you can import the `jetLogger` function directly:
 
 ```typescript
 import { jetLogger, JetLogger } from 'jet-logger';
@@ -103,16 +103,18 @@ import logger from 'jet-logger';
 logger.info('Logs will now be written to ./logs/server.log');
 ```
 
-### Function options
+### `jetLogger` function options
 
 | Option                    | Type                                   | Description                                                                 | Default            |
 | ------------------------- | -------------------------------------- | --------------------------------------------------------------------------- | ------------------ |
-| `mode`                    | `console`, `file`, `custom`, or `off`  | You can also access this values with `Jetlogger.Modes`                      | `console`          |
+| `mode`                    | `console`, `file`, `custom`, or `off`  | You can also access this values with `JetLogger.Modes`                      | `console`          |
 | `filepath`                | `string`                               | Destination file when using `File` mode                                     | `jet-logger.log`   |
 | `filepathDatetimeParam`   | `boolean`                              | Prefix file name with a timestamp when writing to disk                      | `true`             |
 | `timestamp`               | `boolean`                              | Include timestamps in each log entry                                        | `true`             |
-| `format`                  | `line` or `json`                       | You can also access this values with `Jetlogger.Formats`                    | `line`             |
-| `customLogger`            | `CustomLogger`                         | Callback used when `mode` is `Custom` (required for that mode)              | `() => ({})`       |
+| `format`                  | `line` or `json`                       | You can also access this values with `JetLogger.Formats`                    | `line`             |
+| `customLogger`            | `CustomLogger` (see below)             | Callback used when `mode` is `custom` (required for that mode)              | `() => ({})`       |
+
+- `CustomLogger` type is: `(timestamp: Date, prefix: 'IMPORTANT' | 'WARNING' | 'INFO' | 'ERROR', content: unknown) => void;`
 
 <br/><b>***</b><br/>
 
