@@ -74,7 +74,7 @@ const fileLogger = jetLogger({
 fileLogger.info('Writing to disk now!');
 ```
 
-> `JetLogger` is a helper export that exposes the available modes and formats.
+> `JetLogger` is a value-object that exposes the available modes and formats.
 
 <br/><b>***</b><br/>
 
