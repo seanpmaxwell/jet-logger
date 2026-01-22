@@ -88,7 +88,7 @@ You can configure Jet-Logger through environment variables (recommended for depl
 
 | Environment variable         | Description                                                                 | Default              |
 | ---------------------------- | --------------------------------------------------------------------------- | -------------------- |
-| `JET_LOGGER_MODE`            | `'console'`, `fFile'`, `'custom'`, `off'`                                   | `console`            |
+| `JET_LOGGER_MODE`            | `'console'`, `file'`, `'custom'`, `off'`                                   | `console`            |
 | `JET_LOGGER_FILEPATH`        | File path used when mode is `file`                                          | `jet-logger.log`     |
 | `JET_LOGGER_FILEPATH_DATETIME` | Prefix the log file name with a timestamp (`true`/`false`)                | `true`               |
 | `JET_LOGGER_TIMESTAMP`       | Show a timestamp next to each log line (`true`/`false`)                      | `true`               |
