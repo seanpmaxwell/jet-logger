@@ -9,14 +9,14 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 //                                 CONSTANTS                                 //
 // ========================================================================= //
 
-const FIXTURE = path.resolve('test/fixtures/logLines.ts');
+const FIXTURE = path.resolve('test/ai/fixtures/logLines.ts');
 const LINE_COUNT = 20_000;
 
 // Stop a stuck fixture so the test fails on its assertions, not a timeout
 const KILL_AFTER_MS = 15_000;
 
 // ========================================================================= //
-//                                  HELPERS                                  //
+//                                   TYPES                                   //
 // ========================================================================= //
 
 interface RunResult {
@@ -25,6 +25,10 @@ interface RunResult {
   code: number | null;
   signal: NodeJS.Signals | null;
 }
+
+// ========================================================================= //
+//                                  HELPERS                                  //
+// ========================================================================= //
 
 /**
  * Run the fixture in its own process. With `slowReader`, stdout isn't read
