@@ -202,7 +202,7 @@ describe('jet-logger browser mode', () => {
 
     it('works in a web worker', async () => {
       const worker = new Worker(
-        new URL('./fixtures/worker.ts', import.meta.url),
+        new URL('./ai/fixtures/worker.ts', import.meta.url),
         { type: 'module' },
       );
       const reply = await new Promise((resolve, reject) => {

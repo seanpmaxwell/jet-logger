@@ -16,10 +16,14 @@ const STDERR_FD = 2;
 const realWriteSync = fs.writeSync.bind(fs);
 
 // ========================================================================= //
-//                                  HELPERS                                  //
+//                                   TYPES                                   //
 // ========================================================================= //
 
 type WriteSyncImpl = (fd: number, data: Buffer) => number;
+
+// ========================================================================= //
+//                                  HELPERS                                  //
+// ========================================================================= //
 
 /**
  * Record every `fs.writeSync` call to the log file, and optionally change
