@@ -1,5 +1,10 @@
 node_modules
-dist
+lib
 .vscode
-README-git
-**/**/*.log
+
+# Left behind if `npm pack` fails between the README swap and restore
+assets/README.backup.md
+
+**/*.log
+**/*.jsonl
+demo-studio/

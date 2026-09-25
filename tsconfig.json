@@ -1,19 +1,34 @@
 {
   "compilerOptions": {
-    "module": "ESNext",
-    "moduleResolution": "Node",
     "target": "ES2022",
-    "baseUrl": "./",
+    "lib": ["ES2022"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "types": ["node"],
+
     "strict": true,
-    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-    "verbatimModuleSyntax": true,
+
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+
     "noEmit": true,
-    "declaration": false
+
+    "paths": {
+      "@src/*": ["./src/*"],
+      "@cmn/*": ["./src/_common/*"]
+    }
   },
   "include": [
-    "./src/**/*.ts",
-    "./test/**/*.ts",
-    "./eslint.config.ts"
-  ]
+    "src",
+    "test",
+    "*.config.ts",
+    "playground",
+    "scripts",
+    "dev-tools/*.ts",
+    "demo-studio/*.ts"
+  ],
+  "exclude": ["node_modules", "lib", "**/*.tmp.js*"]
 }
