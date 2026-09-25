@@ -1,31 +1,43 @@
 {
   "name": "jet-logger",
-  "version": "2.2.3",
-  "description": "A super quick, easy to setup logging tool for NodeJS/TypeScript.",
+  "version": "3.0.0",
+  "description": "A super quick, easy to setup TypeScript first logging tool for NodeJS and browsers.",
   "type": "module",
-  "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
-  "browser": "./dist/esm/index.js",
-  "types": "./dist/types/index.d.ts",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.js",
-      "types": "./dist/types/index.d.ts"
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
     }
   },
   "files": [
-    "dist"
+    "lib"
   ],
+  "engines": {
+    "node": ">=20.16.0 <21 || >=22.3.0"
+  },
   "scripts": {
-    "build": "rm -rf ./dist && tsc -p tsconfig.esm.json && tsc -p tsconfig.cjs.json && tsc -p tsconfig.types.json",
-    "clean-install": "rm -rf ./node_modules && rm -r package-lock.json && npm i",
-    "lint": "eslint .",
-    "format": "eslint --fix .",
-    "playground": "tsx ./test/playground.ts",
-    "pre-publish": "mv README.md README-git && mv README-npm README.md",
-    "post-publish": "mv README.md README-npm && mv README-git README.md",
-    "test": "NODE_ENV=test vitest"
+    "benchmark": "tsx scripts/benchmark.ts",
+    "build": "tsx scripts/build.ts",
+    "commit": "npm run format && git add -A && git commit -m \"dev commit\"",
+    "commit:push": "npm run commit && git push",
+    "demo:gif": "bash demo-studio/start.sh",
+    "install:clean": "rm -rf node_modules && rm -f package-lock.json && npm i",
+    "lint": "eslint . --max-warnings 0",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "npm-data": "npm run build && npm pack --dry-run --json",
+    "prepack": "npm run readme:swap",
+    "prepublishOnly": "npm run build && tsc && npm run lint && npm run format:check && npm test && npm run test:browser && npm run verify:package",
+    "postpack": "npm run readme:restore",
+    "readme:swap": "tsx scripts/readme.ts swap",
+    "readme:restore": "tsx scripts/readme.ts restore",
+    "test": "vitest run",
+    "test:browser": "vitest run --config vitest.browser.config.ts",
+    "typecheck": "tsc",
+    "verify:package": "tsx scripts/verifyPackage.ts"
   },
   "repository": {
     "type": "git",
@@ -58,23 +70,24 @@
     "url": "https://github.com/seanpmaxwell/jet-logger/issues"
   },
   "homepage": "https://github.com/seanpmaxwell/jet-logger#readme",
-  "dependencies": {
-    "colors": "1.4.0"
-  },
   "devDependencies": {
-    "@eslint/js": "^9.26.0",
-    "@stylistic/eslint-plugin": "^5.6.1",
-    "@trivago/prettier-plugin-sort-imports": "^6.0.1",
-    "@types/node": "^22.8.1",
-    "eslint": "^9.26.0",
+    "@eslint/js": "^10.0.1",
+    "@trivago/prettier-plugin-sort-imports": "^6.0.2",
+    "@types/node": "^20.19.43",
+    "@vitest/browser": "^4.1.11",
+    "@vitest/browser-playwright": "^4.1.11",
+    "chalk": "^6.0.0",
+    "dts-bundle-generator": "^9.5.1",
+    "esbuild": "^0.28.2",
+    "eslint": "^10.7.0",
     "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-n": "^17.17.0",
-    "eslint-plugin-prettier": "^5.5.4",
-    "jiti": "^2.3.3",
-    "prettier": "^3.7.4",
-    "typescript": "~5.9.3",
-    "tsx": "^4.19.1",
-    "typescript-eslint": "^8.50.0",
-    "vitest": "^4.0.15"
+    "globals": "^17.7.0",
+    "jiti": "^2.7.0",
+    "playwright": "^1.63.0",
+    "prettier": "^3.9.5",
+    "tsx": "^4.23.11",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.65.0",
+    "vitest": "^4.1.10"
   }
 }
