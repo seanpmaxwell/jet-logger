@@ -11,9 +11,9 @@ import { reportInternalError } from './_internal/utils/fns';
 import { LogWriter } from './_internal/utils/types';
 import { Level, Levels } from './_local/constants/levels';
 import { DefaultOptions } from './_local/constants/misc';
-import { Modes } from './_local/enums';
 import loadEnvOptions from './_local/fns/loadEnvOptions';
 import validateOptions from './_local/fns/validateOptions';
+import { Modes } from './_local/option-enums';
 import type {
   APIOptions,
   CustomTransportContext,

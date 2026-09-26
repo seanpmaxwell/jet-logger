@@ -4,7 +4,7 @@ import unknownArrToStr from '@cmn/utils/fns/unknownArrToStr';
 import ProcessHost from '@cmn/utils/modules/ProcessHost';
 
 import { DEFAULT_LOG_FILE_NAME } from '../_local/constants/misc';
-import { Formats } from '../_local/enums';
+import { Formats } from '../_local/option-enums';
 import { IOptions, LogEntry } from '../_local/types';
 
 import BufferedFileWriter from './BufferedFileWriter/BufferedFileWriter';

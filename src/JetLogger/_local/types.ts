@@ -1,4 +1,4 @@
-import { Formats, Modes } from './enums';
+import { Formats, Modes } from './option-enums';
 
 import type { Level } from './constants/levels';
 

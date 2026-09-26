@@ -1,31 +1,33 @@
-import schema from './schema';
+import schema from './modules/schema';
 
 // ========================================================================= //
 //                                   TYPES                                   //
 // ========================================================================= //
+
+type BaseTypes = Record<string, number> | Record<string, string>;
 
 // Resolve a tuple of an objects keys
 export type Enum<O extends BaseTypes> = {
   [K in keyof O]: O[K] extends string | number ? O[K] : never;
 }[keyof O];
 
-type BaseTypes = Record<string, number> | Record<string, string>;
-
-interface EnumProps<T> {
+interface EnumUtils<T> {
   is: (val: unknown) => val is T[keyof T];
-  enum: () => T;
+  table: () => T;
 }
+
+export type EnumTable<T> = T extends EnumUtils<infer P> ? P : never;
 
 // ========================================================================= //
 //                                 FUNCTIONS                                 //
 // ========================================================================= //
 
 /**
- * Get the validator-function to append to enums
+ * Some helper functions for Lookup Tables.
  */
-export function getEnumProps<T extends BaseTypes>(enumObj: T): EnumProps<T> {
+export function getEnumUtils<T extends BaseTypes>(tableObj: T): EnumUtils<T> {
   // Setup the `.is` function
-  let values = Object.values(enumObj);
+  let values = Object.values(tableObj);
   values = values.filter((val) => {
     return schema.is.str(val) || schema.is.num(val);
   });
@@ -33,11 +35,9 @@ export function getEnumProps<T extends BaseTypes>(enumObj: T): EnumProps<T> {
   const isFn = (val: unknown): val is T[keyof T] => {
     return set.has(val);
   };
-  // Setup the `.enum` function
-  const enumFn = (): T => ({ ...enumObj });
   // Return
   return {
     is: isFn,
-    enum: enumFn,
+    table: () => ({ ...tableObj }),
   };
 }
