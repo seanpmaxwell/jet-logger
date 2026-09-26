@@ -11,7 +11,7 @@
 
 ## 👀 Preview
 
-![Four log calls are typed into app.ts, then running it prints four color-coded lines, each starting with the time: a green INFO, an underlined magenta IMPORTANT, a yellow WARNING, and a red ERROR](./assets/demo.gif)
+![Four log calls are typed into app.ts, then running it prints four color-coded lines, each starting with the time: a green INFO, an underlined magenta IMPORTANT, a yellow WARNING, and a red ERROR](https://raw.githubusercontent.com/seanpmaxwell/jet-logger/HEAD/assets/demo.gif)
 
 <p align="center">· · ·</p>
 
