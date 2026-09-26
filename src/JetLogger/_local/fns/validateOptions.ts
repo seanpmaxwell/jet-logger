@@ -2,7 +2,7 @@ import InvalidOptionErr from '@cmn/classes/InvalidOptionErr';
 import schema from '@cmn/utils/modules/schema';
 
 import { DefaultOptions } from '../constants/misc';
-import { Formats, Modes } from '../enums';
+import { Formats, Modes } from '../option-enums';
 import { IOptions } from '../types';
 
 // ========================================================================= //

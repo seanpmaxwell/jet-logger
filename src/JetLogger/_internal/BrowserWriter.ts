@@ -1,7 +1,7 @@
 import unknownArrToStr from '@cmn/utils/fns/unknownArrToStr';
 
 import { ContentStyle, TimestampStyle } from '../_local/constants/levels';
-import { Formats } from '../_local/enums';
+import { Formats } from '../_local/option-enums';
 import { IOptions, LogEntry } from '../_local/types';
 
 import { getLineTimestamp, toJsonStr } from './utils/fns';

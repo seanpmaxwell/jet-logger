@@ -1,4 +1,5 @@
-import { EFormats, EModes, Formats, Modes } from './JetLogger/_local/enums';
+import { EnumTable } from './_common/utils/enum.inv';
+import { Formats, Modes } from './JetLogger/_local/option-enums';
 import JetLoggerRaw, {
   JetLoggerInstance,
   JetLoggerOptions,
@@ -10,8 +11,8 @@ import JetLoggerRaw, {
 
 interface JetLogger {
   (options?: JetLoggerOptions): JetLoggerInstance;
-  readonly Modes: EModes;
-  readonly Formats: EFormats;
+  readonly Modes: EnumTable<typeof Modes>;
+  readonly Formats: EnumTable<typeof Formats>;
 }
 
 // ========================================================================= //
@@ -20,8 +21,8 @@ interface JetLogger {
 
 // Make the enums public readonly
 const JetLoggerInit: JetLogger = Object.assign(JetLoggerRaw, {
-  Modes: Modes.enum(),
-  Formats: Formats.enum(),
+  Modes: Modes.table(),
+  Formats: Formats.table(),
 });
 
 // The default logger is created on first use, not on import, so importing

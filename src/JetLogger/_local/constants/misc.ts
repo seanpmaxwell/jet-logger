@@ -1,6 +1,6 @@
 import { IOptions } from '@src/JetLogger/_local/types';
 
-import { Formats, Modes } from '../enums';
+import { Formats, Modes } from '../option-enums';
 
 // ========================================================================= //
 //                                 CONSTANTS                                 //

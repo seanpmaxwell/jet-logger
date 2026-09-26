@@ -1,6 +1,6 @@
 import unknownArrToStr from '@cmn/utils/fns/unknownArrToStr';
 
-import { Formats } from '../_local/enums';
+import { Formats } from '../_local/option-enums';
 import { IOptions, LogEntry } from '../_local/types';
 
 import { paintAnsi, paintPlain, toJsonStr, toLineStr } from './utils/fns';
