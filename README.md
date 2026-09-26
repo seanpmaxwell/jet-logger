@@ -1,4 +1,4 @@
-# ✈️🪵 Jet-Logger 
+# ✈️🪵 &nbsp; jet-logger 
 
 > A super quick, easy to setup TypeScript first logging tool for NodeJS and browsers.
 
