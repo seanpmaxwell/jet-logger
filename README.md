@@ -20,7 +20,7 @@
 - Works locally and in browsers
 - Zero dependencies, written in TypeScript
 - Configure programmatically or through environment variables
-- Tiny: **8 kB** packed
+- Tiny: 2.7 kB minified + gzipped, with zero runtime dependencies.
 - Logs can be sent to the console or a file
 - Both plain-text `line` and `json` (JSON Lines) formats supported
 - Color-coded `info`, `imp`, `warn`, and `err` levels in terminals
